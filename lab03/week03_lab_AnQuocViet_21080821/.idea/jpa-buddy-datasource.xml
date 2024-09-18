@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-source-infos>
+      <data-source-info id="9315087f-ce75-46a3-af98-a2ecf3df9dda" persistence-unit-name="week03_lab_AnQuocViet_21080821.main:week03-mariadb" />
+    </data-source-infos>
+  </component>
+</project>

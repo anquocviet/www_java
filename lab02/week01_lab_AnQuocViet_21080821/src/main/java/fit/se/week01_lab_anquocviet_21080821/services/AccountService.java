@@ -29,6 +29,9 @@ public class AccountService {
    }
 
    public Account checkLogin(String phone, String password) {
+      if (phone == null || password == null || phone.trim().isEmpty() || password.trim().isEmpty()) {
+         return null;
+      }
       return accountRepository.checkLogin(phone, password);
    }
 

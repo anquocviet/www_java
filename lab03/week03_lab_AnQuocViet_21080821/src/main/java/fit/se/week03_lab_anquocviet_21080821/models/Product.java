@@ -1,0 +1,55 @@
+package fit.se.week03_lab_anquocviet_21080821.models;
+
+import fit.se.week03_lab_anquocviet_21080821.enums.ProductStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.Set;
+
+@Getter
+@Setter
+@ToString
+@Entity
+@Table(name = "product")
+@NamedQueries({
+      @NamedQuery(name = "Product.findAll", query = "select p from Product p")
+})
+public class Product implements Serializable {
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "product_id")
+   private long id;
+
+   private String name;
+
+   private String description;
+
+   private String unit;
+
+   @Column(name = "manufacturer_name")
+   private String manufacturer;
+
+   @Enumerated(EnumType.ORDINAL)
+   private ProductStatus status;
+
+   @OneToMany(mappedBy = "product")
+   @ToString.Exclude
+   private Set<ProductPrice> prices;
+
+   @OneToMany(mappedBy = "product")
+   @ToString.Exclude
+   private Set<ProductImage> images;
+}
