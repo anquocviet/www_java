@@ -1,24 +1,26 @@
 package fit.se.week03_lab_anquocviet_21080821.dtos;
 
-import fit.se.week03_lab_anquocviet_21080821.models.ProductPrice;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
- * DTO for {@link ProductPrice}
+ * DTO for {@link fit.se.week03_lab_anquocviet_21080821.models.OrderDetail}
  */
-public record ProductPriceDto(
-      @NotNull
-      LocalDateTime priceDateTime,
-
+public record OrderDetailDto(
       @NotNull
       double price,
 
       @NotNull
+      double quantity,
+
+      @NotNull
       @NotBlank
-      String note
+      String note,
+
+      OrderDto order,
+
+      ProductDto product
 ) implements Serializable {
 }

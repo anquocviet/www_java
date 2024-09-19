@@ -3,8 +3,12 @@ package fit.se.week03_lab_anquocviet_21080821.resources;
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
 import fit.se.week03_lab_anquocviet_21080821.services.ProductService;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -32,9 +36,28 @@ public class ProductResource {
    @Path("/{id}")
    @Produces("application/json")
    public ProductDto product(@PathParam("id") int id) {
-      return productService.getProductById(id).orElseThrow(
-            () -> new EntityNotFoundException("Product with id " + id + " not found")
-      );
+      return productService.getProductById(id);
+   }
+
+   @POST
+   @Consumes("application/json")
+   @Produces("application/json")
+   public ProductDto addProduct(@Valid ProductDto productDto) {
+      return productService.createProduct(productDto);
+   }
+
+   @PUT
+   @Consumes("application/json")
+   @Produces("application/json")
+   public ProductDto updateProduct(@Valid ProductDto productDto) {
+      return productService.updateProduct(productDto);
+   }
+
+   @DELETE
+   @Path("/{id}")
+   public String deleteProduct(@PathParam("id") int id) {
+      productService.deleteProduct(id);
+      return "ok";
    }
 }
 

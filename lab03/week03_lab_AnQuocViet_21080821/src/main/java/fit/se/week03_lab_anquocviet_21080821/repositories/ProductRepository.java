@@ -3,6 +3,7 @@ package fit.se.week03_lab_anquocviet_21080821.repositories;
 import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -23,18 +24,27 @@ public class ProductRepository implements IRepository<Product> {
    }
 
    @Override
+   @Transactional
    public Product create(Product product) {
-      return null;
+      entityManager.persist(product);
+      return product;
    }
 
    @Override
+   @Transactional
    public Product update(Product product) {
-      return null;
+      return entityManager.merge(product);
    }
 
    @Override
-   public boolean delete(int id) {
-      return false;
+   @Transactional
+   public boolean delete(long id) {
+      Product product = entityManager.find(Product.class, id);
+      if (product == null) {
+         return false;
+      }
+      entityManager.remove(product);
+      return true;
    }
 
    @Override

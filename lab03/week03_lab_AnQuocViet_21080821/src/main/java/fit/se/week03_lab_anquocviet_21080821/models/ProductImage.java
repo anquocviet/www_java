@@ -15,14 +15,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "product_image")
+@Table(name = "product_images")
 public class ProductImage {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "image_id")
    private long id;
 
-   @Id
    @ManyToOne
    @JoinColumn(name = "product_id")
    @JsonBackReference

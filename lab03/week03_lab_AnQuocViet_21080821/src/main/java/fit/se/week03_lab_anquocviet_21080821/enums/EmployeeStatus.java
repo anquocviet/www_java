@@ -19,7 +19,7 @@ public enum EmployeeStatus {
 
    public static EmployeeStatus fromValue(int value) {
       return Stream.of(EmployeeStatus.values())
-                   .filter(status -> status.ordinal() == value)
+                   .filter(status -> status.value == value)
                    .findFirst()
                    .orElseThrow(IllegalArgumentException::new);
    }

@@ -25,7 +25,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @NamedQueries({
       @NamedQuery(name = "Product.findAll", query = "select p from Product p")
 })

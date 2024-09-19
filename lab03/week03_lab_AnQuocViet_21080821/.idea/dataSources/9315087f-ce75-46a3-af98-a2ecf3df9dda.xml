@@ -1294,7 +1294,7 @@
     </schema>
     <schema id="515" parent="1" name="www-week03">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-09-18.15:36:26</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-09-19.08:18:21</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </schema>
     <user id="516" parent="1" name="healthcheck">
@@ -1313,31 +1313,31 @@
     <user id="521" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="522" parent="515" name="customer">
+    <table id="522" parent="515" name="customers">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="523" parent="515" name="employee">
+    <table id="523" parent="515" name="employees">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="524" parent="515" name="order">
+    <table id="524" parent="515" name="order_details">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="525" parent="515" name="order_detail">
+    <table id="525" parent="515" name="orders">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="526" parent="515" name="product">
+    <table id="526" parent="515" name="product_images">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="527" parent="515" name="product_image">
+    <table id="527" parent="515" name="product_prices">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
-    <table id="528" parent="515" name="product_price">
+    <table id="528" parent="515" name="products">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </table>
@@ -1414,44 +1414,47 @@
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="545" parent="524" name="order_id">
-      <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="546" parent="524" name="order_date">
+    <column id="546" parent="524" name="product_id">
+      <NotNull>1</NotNull>
       <Position>2</Position>
-      <StoredType>datetime|0s</StoredType>
+      <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="547" parent="524" name="emp_id">
+    <column id="547" parent="524" name="price">
+      <NotNull>1</NotNull>
       <Position>3</Position>
-      <StoredType>bigint(20)|0s</StoredType>
+      <StoredType>double|0s</StoredType>
     </column>
-    <column id="548" parent="524" name="cust_id">
+    <column id="548" parent="524" name="quantity">
+      <NotNull>1</NotNull>
       <Position>4</Position>
-      <StoredType>bigint(20)|0s</StoredType>
+      <StoredType>double|0s</StoredType>
     </column>
-    <foreign-key id="549" parent="524" name="FK_ORDER_ON_EMP">
-      <ColNames>emp_id</ColNames>
-      <RefColNames>emp_id</RefColNames>
-      <RefTableName>employee</RefTableName>
-    </foreign-key>
-    <foreign-key id="550" parent="524" name="FK_ORDER_ON_CUST">
-      <ColNames>cust_id</ColNames>
-      <RefColNames>cust_id</RefColNames>
-      <RefTableName>customer</RefTableName>
-    </foreign-key>
-    <index id="551" parent="524" name="PRIMARY">
+    <column id="549" parent="524" name="note">
+      <Position>5</Position>
+      <StoredType>varchar(255)|0s</StoredType>
+    </column>
+    <foreign-key id="550" parent="524" name="FK_ORDER_DETAILS_ON_ORDER">
       <ColNames>order_id</ColNames>
+      <RefColNames>order_id</RefColNames>
+      <RefTableName>orders</RefTableName>
+    </foreign-key>
+    <foreign-key id="551" parent="524" name="FK_ORDER_DETAILS_ON_PRODUCT">
+      <ColNames>product_id</ColNames>
+      <RefColNames>product_id</RefColNames>
+      <RefTableName>products</RefTableName>
+    </foreign-key>
+    <index id="552" parent="524" name="PRIMARY">
+      <ColNames>order_id
+product_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="552" parent="524" name="FK_ORDER_ON_EMP">
-      <ColNames>emp_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="553" parent="524" name="FK_ORDER_ON_CUST">
-      <ColNames>cust_id</ColNames>
+    <index id="553" parent="524" name="FK_ORDER_DETAILS_ON_PRODUCT">
+      <ColNames>product_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="554" parent="524" name="PRIMARY">
@@ -1460,47 +1463,44 @@
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="555" parent="525" name="order_id">
+      <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="556" parent="525" name="product_id">
-      <NotNull>1</NotNull>
+    <column id="556" parent="525" name="order_date">
       <Position>2</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <column id="557" parent="525" name="emp_id">
+      <Position>3</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="557" parent="525" name="price">
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StoredType>double|0s</StoredType>
-    </column>
-    <column id="558" parent="525" name="quantity">
-      <NotNull>1</NotNull>
+    <column id="558" parent="525" name="cust_id">
       <Position>4</Position>
-      <StoredType>double|0s</StoredType>
+      <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="559" parent="525" name="note">
-      <Position>5</Position>
-      <StoredType>varchar(255)|0s</StoredType>
-    </column>
-    <foreign-key id="560" parent="525" name="FK_ORDER_DETAIL_ON_ORDER">
+    <foreign-key id="559" parent="525" name="FK_ORDERS_ON_EMP">
+      <ColNames>emp_id</ColNames>
+      <RefColNames>emp_id</RefColNames>
+      <RefTableName>employees</RefTableName>
+    </foreign-key>
+    <foreign-key id="560" parent="525" name="FK_ORDERS_ON_CUST">
+      <ColNames>cust_id</ColNames>
+      <RefColNames>cust_id</RefColNames>
+      <RefTableName>customers</RefTableName>
+    </foreign-key>
+    <index id="561" parent="525" name="PRIMARY">
       <ColNames>order_id</ColNames>
-      <RefColNames>order_id</RefColNames>
-      <RefTableName>order</RefTableName>
-    </foreign-key>
-    <foreign-key id="561" parent="525" name="FK_ORDER_DETAIL_ON_PRODUCT">
-      <ColNames>product_id</ColNames>
-      <RefColNames>product_id</RefColNames>
-      <RefTableName>product</RefTableName>
-    </foreign-key>
-    <index id="562" parent="525" name="PRIMARY">
-      <ColNames>order_id
-product_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="563" parent="525" name="FK_ORDER_DETAIL_ON_PRODUCT">
-      <ColNames>product_id</ColNames>
+    <index id="562" parent="525" name="FK_ORDERS_ON_EMP">
+      <ColNames>emp_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="563" parent="525" name="FK_ORDERS_ON_CUST">
+      <ColNames>cust_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="564" parent="525" name="PRIMARY">
@@ -1508,73 +1508,74 @@ product_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="565" parent="526" name="product_id">
+    <column id="565" parent="526" name="image_id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="566" parent="526" name="name">
+    <column id="566" parent="526" name="product_id">
+      <NotNull>1</NotNull>
       <Position>2</Position>
-      <StoredType>varchar(255)|0s</StoredType>
+      <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="567" parent="526" name="description">
+    <column id="567" parent="526" name="path">
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="568" parent="526" name="unit">
+    <column id="568" parent="526" name="alternative">
       <Position>4</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="569" parent="526" name="manufacturer_name">
-      <Position>5</Position>
-      <StoredType>varchar(255)|0s</StoredType>
-    </column>
-    <column id="570" parent="526" name="status">
-      <Position>6</Position>
-      <StoredType>smallint(6)|0s</StoredType>
-    </column>
-    <index id="571" parent="526" name="PRIMARY">
+    <foreign-key id="569" parent="526" name="FK_PRODUCT_IMAGES_ON_PRODUCT">
       <ColNames>product_id</ColNames>
+      <RefColNames>product_id</RefColNames>
+      <RefTableName>products</RefTableName>
+    </foreign-key>
+    <index id="570" parent="526" name="PRIMARY">
+      <ColNames>image_id
+product_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
+    </index>
+    <index id="571" parent="526" name="FK_PRODUCT_IMAGES_ON_PRODUCT">
+      <ColNames>product_id</ColNames>
+      <Type>btree</Type>
     </index>
     <key id="572" parent="526" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="573" parent="527" name="image_id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="573" parent="527" name="price_date_time">
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StoredType>bigint(20)|0s</StoredType>
+      <StoredType>datetime|0s</StoredType>
     </column>
     <column id="574" parent="527" name="product_id">
-      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="575" parent="527" name="path">
+    <column id="575" parent="527" name="price">
+      <NotNull>1</NotNull>
       <Position>3</Position>
-      <StoredType>varchar(255)|0s</StoredType>
+      <StoredType>double|0s</StoredType>
     </column>
-    <column id="576" parent="527" name="alternative">
+    <column id="576" parent="527" name="note">
       <Position>4</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <foreign-key id="577" parent="527" name="FK_PRODUCT_IMAGE_ON_PRODUCT">
+    <foreign-key id="577" parent="527" name="FK_PRODUCT_PRICES_ON_PRODUCT">
       <ColNames>product_id</ColNames>
       <RefColNames>product_id</RefColNames>
-      <RefTableName>product</RefTableName>
+      <RefTableName>products</RefTableName>
     </foreign-key>
     <index id="578" parent="527" name="PRIMARY">
-      <ColNames>image_id
-product_id</ColNames>
+      <ColNames>price_date_time</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="579" parent="527" name="FK_PRODUCT_IMAGE_ON_PRODUCT">
+    <index id="579" parent="527" name="FK_PRODUCT_PRICES_ON_PRODUCT">
       <ColNames>product_id</ColNames>
       <Type>btree</Type>
     </index>
@@ -1583,37 +1584,36 @@ product_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="581" parent="528" name="price_date_time">
+    <column id="581" parent="528" name="product_id">
+      <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StoredType>datetime|0s</StoredType>
-    </column>
-    <column id="582" parent="528" name="product_id">
-      <Position>2</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
-    <column id="583" parent="528" name="price">
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StoredType>double|0s</StoredType>
+    <column id="582" parent="528" name="name">
+      <Position>2</Position>
+      <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="584" parent="528" name="note">
+    <column id="583" parent="528" name="description">
+      <Position>3</Position>
+      <StoredType>varchar(255)|0s</StoredType>
+    </column>
+    <column id="584" parent="528" name="unit">
       <Position>4</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <foreign-key id="585" parent="528" name="FK_PRODUCT_PRICE_ON_PRODUCT">
+    <column id="585" parent="528" name="manufacturer_name">
+      <Position>5</Position>
+      <StoredType>varchar(255)|0s</StoredType>
+    </column>
+    <column id="586" parent="528" name="status">
+      <Position>6</Position>
+      <StoredType>smallint(6)|0s</StoredType>
+    </column>
+    <index id="587" parent="528" name="PRIMARY">
       <ColNames>product_id</ColNames>
-      <RefColNames>product_id</RefColNames>
-      <RefTableName>product</RefTableName>
-    </foreign-key>
-    <index id="586" parent="528" name="PRIMARY">
-      <ColNames>price_date_time</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
-    </index>
-    <index id="587" parent="528" name="FK_PRODUCT_PRICE_ON_PRODUCT">
-      <ColNames>product_id</ColNames>
-      <Type>btree</Type>
     </index>
     <key id="588" parent="528" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>

@@ -1,5 +1,6 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import fit.se.week03_lab_anquocviet_21080821.enums.EmployeeStatus;
 import jakarta.persistence.Column;
@@ -9,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -20,7 +23,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
+@NamedQueries({
+      @NamedQuery(name = "Employee.findAll", query = "select e from Employee e")
+})
 public class Employee {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +48,6 @@ public class Employee {
    private EmployeeStatus status;
 
    @OneToMany(mappedBy = "employee")
-   @JsonManagedReference
+   @JsonIgnore
    private Set<Order> orders;
 }

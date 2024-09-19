@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "product_price")
+@Table(name = "product_prices")
 public class ProductPrice {
    @Id
    @Column(name = "price_date_time")
