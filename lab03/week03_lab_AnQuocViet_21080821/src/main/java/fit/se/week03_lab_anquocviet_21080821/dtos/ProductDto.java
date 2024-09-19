@@ -14,8 +14,8 @@ public record ProductDto(
       String description,
       String unit,
       String manufacturer,
-      ProductStatus status
-//      Set<ProductPriceDto> prices,
-//      Set<ProductImageDto> images
+      ProductStatus status,
+      Set<ProductPriceDto> prices,
+      Set<ProductImageDto> images
 ) implements Serializable {
 }

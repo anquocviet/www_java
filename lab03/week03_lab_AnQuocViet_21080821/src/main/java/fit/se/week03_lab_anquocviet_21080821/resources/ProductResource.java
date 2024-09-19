@@ -1,14 +1,13 @@
 package fit.se.week03_lab_anquocviet_21080821.resources;
 
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
-import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import fit.se.week03_lab_anquocviet_21080821.services.ProductService;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Response;
 
 import java.util.Set;
 
@@ -30,9 +29,13 @@ public class ProductResource {
    }
 
    @GET
-   @Path("{id}")
+   @Path("/{id}")
    @Produces("application/json")
-   public Product product(@PathParam("id") int id) {
-      return productService.getProductById(id);
+   public ProductDto product(@PathParam("id") int id) {
+      return productService.getProductById(id).orElseThrow(
+            () -> new EntityNotFoundException("Product with id " + id + " not found")
+      );
    }
 }
+
+

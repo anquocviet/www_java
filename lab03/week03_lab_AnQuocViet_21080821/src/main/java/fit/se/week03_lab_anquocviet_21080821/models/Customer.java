@@ -1,7 +1,9 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,5 +34,6 @@ public class Customer {
    private String address;
 
    @OneToMany(mappedBy = "customer")
+   @JsonManagedReference
    private Set<Order> orders;
 }

@@ -2,10 +2,10 @@ package fit.se.week03_lab_anquocviet_21080821.services;
 
 import fit.se.week03_lab_anquocviet_21080821.converters.ProductConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
-import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import fit.se.week03_lab_anquocviet_21080821.repositories.ProductRepository;
 import jakarta.inject.Inject;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,8 +25,9 @@ public class ProductService {
                    .collect(Collectors.toSet());
    }
 
-   public Product getProductById(int id) {
-      return productRepository.findById(id);
+   public Optional<ProductDto> getProductById(int id) {
+      return productRepository.findById(id)
+                   .map(ProductConverter::convertToDto);
    }
 
 }

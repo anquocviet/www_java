@@ -1,5 +1,6 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -16,6 +17,7 @@ public class OrderDetail {
    @Id
    @ManyToOne
    @JoinColumn(name = "order_id")
+   @JsonBackReference
    private Order order;
 
    @Id

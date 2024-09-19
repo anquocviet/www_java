@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e0be82d-cf47-48cc-a91a-8922d8258d95" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../lab02/week01_lab_AnQuocViet_21080821/src/main/java/fit/se/week01_lab_anquocviet_21080821/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../lab02/week01_lab_AnQuocViet_21080821/src/main/java/fit/se/week01_lab_anquocviet_21080821/services/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/converters/ProductConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/converters/ProductConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/OrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/OrderDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductPrice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductPrice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/IRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/IRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/ProductResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/ProductResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/ProductService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,10 +78,10 @@
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -87,32 +100,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build week03_lab_AnQuocViet_21080821.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "HTTP Request.generated-requests | #1.executor": "Run",
-    "Payara Server.Payara 6.19.0.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build week03_lab_AnQuocViet_21080821.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
+    &quot;Payara Server.Payara 6.19.0.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mariadb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunDashboard">
     <option name="excludedTypes">
       <set>
@@ -229,7 +242,8 @@
       <workItem from="1726644335015" duration="52000" />
       <workItem from="1726644393561" duration="16000" />
       <workItem from="1726644505058" duration="62000" />
-      <workItem from="1726645224725" duration="27280000" />
+      <workItem from="1726645224725" duration="27424000" />
+      <workItem from="1726718761218" duration="4610000" />
     </task>
     <servers />
   </component>

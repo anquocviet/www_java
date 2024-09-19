@@ -4,7 +4,7 @@ import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,8 +18,8 @@ public class ProductRepository implements IRepository<Product> {
    private EntityManager entityManager;
 
    @Override
-   public Product findById(int id) {
-      return entityManager.find(Product.class, id);
+   public Optional<Product> findById(long id) {
+      return Optional.ofNullable(entityManager.find(Product.class, id));
    }
 
    @Override

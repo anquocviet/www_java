@@ -1,5 +1,6 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,6 +23,7 @@ public class ProductPrice {
 
    @ManyToOne
    @JoinColumn(name = "product_id")
+   @JsonBackReference
    private Product product;
 
    private double price;

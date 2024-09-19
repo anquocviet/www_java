@@ -1,5 +1,7 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,13 +32,16 @@ public class Order {
 
    @ManyToOne
    @JoinColumn(name = "emp_id")
+   @JsonBackReference
    private Employee employee;
 
    @ManyToOne
    @JoinColumn(name = "cust_id")
+   @JsonBackReference
    private Customer customer;
 
    @OneToMany(mappedBy = "order")
+   @JsonManagedReference
    private Set<OrderDetail> orderDetails;
 
 
