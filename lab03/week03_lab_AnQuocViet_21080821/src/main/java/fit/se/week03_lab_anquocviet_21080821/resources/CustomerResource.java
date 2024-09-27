@@ -2,7 +2,7 @@ package fit.se.week03_lab_anquocviet_21080821.resources;
 
 import fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto;
 import fit.se.week03_lab_anquocviet_21080821.services.CustomerService;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 @Path("/customers")
 public class CustomerResource {
-   @Inject
+   @EJB
    private CustomerService customerService;
 
    @GET

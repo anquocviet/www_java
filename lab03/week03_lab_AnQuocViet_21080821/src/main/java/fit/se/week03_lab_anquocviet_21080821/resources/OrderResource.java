@@ -3,7 +3,7 @@ package fit.se.week03_lab_anquocviet_21080821.resources;
 import fit.se.week03_lab_anquocviet_21080821.dtos.CreateOrderDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.OrderDto;
 import fit.se.week03_lab_anquocviet_21080821.services.OrderService;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 @Path("/orders")
 public class OrderResource {
-   @Inject
+   @EJB
    private OrderService orderService;
 
    @GET

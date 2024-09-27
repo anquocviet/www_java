@@ -27,7 +27,8 @@ import java.util.Set;
 @Entity
 @Table(name = "products")
 @NamedQueries({
-      @NamedQuery(name = "Product.findAll", query = "select p from Product p")
+      @NamedQuery(name = "Product.findAll", query = "select p from Product p where p.status = :status"),
+      @NamedQuery(name = "Product.findByIds", query = "select p from Product p where p.id in :ids")
 })
 public class Product implements Serializable {
    @Id

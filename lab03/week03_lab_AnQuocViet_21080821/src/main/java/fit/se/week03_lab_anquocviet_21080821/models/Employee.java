@@ -1,7 +1,6 @@
 package fit.se.week03_lab_anquocviet_21080821.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import fit.se.week03_lab_anquocviet_21080821.enums.EmployeeStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

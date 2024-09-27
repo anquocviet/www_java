@@ -4,7 +4,8 @@ import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
 import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import fit.se.week03_lab_anquocviet_21080821.repositories.ProductRepository;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
@@ -15,8 +16,9 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 18/9/24
  */
+@Stateless
 public class ProductService {
-   @Inject
+   @EJB
    private ProductRepository productRepository;
 
 
@@ -60,6 +62,12 @@ public class ProductService {
       if (!delete) {
          throw new EntityNotFoundException("Product not found");
       }
+   }
+
+   public Set<ProductDto> getProductsByIds(Set<Long> ids) {
+      return productRepository.findByIds(ids).stream()
+                   .map(p -> ModelDtoConverter.convertToDto(p, ProductDto.class))
+                   .collect(Collectors.toSet());
    }
 
 }

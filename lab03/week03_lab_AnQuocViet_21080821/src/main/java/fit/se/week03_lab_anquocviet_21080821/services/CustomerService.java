@@ -4,7 +4,8 @@ import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto;
 import fit.se.week03_lab_anquocviet_21080821.models.Customer;
 import fit.se.week03_lab_anquocviet_21080821.repositories.CustomerRepository;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
@@ -15,8 +16,10 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 19/9/24
  */
+
+@Stateless
 public class CustomerService {
-   @Inject
+   @EJB
    private CustomerRepository customerRepository;
 
    public Set<CustomerDto> getAllCustomers() {

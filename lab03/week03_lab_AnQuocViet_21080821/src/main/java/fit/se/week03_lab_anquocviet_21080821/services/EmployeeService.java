@@ -4,7 +4,8 @@ import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.EmployeeDto;
 import fit.se.week03_lab_anquocviet_21080821.models.Employee;
 import fit.se.week03_lab_anquocviet_21080821.repositories.EmployeeRepository;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
@@ -15,8 +16,9 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 19/9/24
  */
+@Stateless
 public class EmployeeService {
-   @Inject
+   @EJB
    private EmployeeRepository employeeRepository;
 
    public Set<EmployeeDto> getAllEmployees() {

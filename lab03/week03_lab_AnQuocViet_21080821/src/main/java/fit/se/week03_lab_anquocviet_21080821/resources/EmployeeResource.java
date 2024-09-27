@@ -2,7 +2,7 @@ package fit.se.week03_lab_anquocviet_21080821.resources;
 
 import fit.se.week03_lab_anquocviet_21080821.dtos.EmployeeDto;
 import fit.se.week03_lab_anquocviet_21080821.services.EmployeeService;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -21,7 +21,7 @@ import java.util.Set;
  */
 @Path("/employees")
 public class EmployeeResource {
-   @Inject
+   @EJB
    private EmployeeService employeeService;
 
    @GET

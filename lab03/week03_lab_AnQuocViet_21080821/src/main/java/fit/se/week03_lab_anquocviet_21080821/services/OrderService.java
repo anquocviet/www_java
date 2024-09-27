@@ -9,7 +9,8 @@ import fit.se.week03_lab_anquocviet_21080821.dtos.OrderDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
 import fit.se.week03_lab_anquocviet_21080821.models.Order;
 import fit.se.week03_lab_anquocviet_21080821.repositories.OrderRepository;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDate;
@@ -21,14 +22,15 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 19/9/24
  */
+@Stateless
 public class OrderService {
-   @Inject
+   @EJB
    private OrderRepository orderRepository;
-   @Inject
+   @EJB
    private CustomerService customerService;
-   @Inject
+   @EJB
    private EmployeeService employeeService;
-   @Inject
+   @EJB
    private ProductService productService;
 
    public Set<OrderDto> getAllOrders() {
