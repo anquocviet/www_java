@@ -11,9 +11,6 @@ import java.io.Serializable;
  */
 public record ProductImageDto(
       @NotNull
-      long id,
-
-      @NotNull
       @NotBlank
       String path,
 

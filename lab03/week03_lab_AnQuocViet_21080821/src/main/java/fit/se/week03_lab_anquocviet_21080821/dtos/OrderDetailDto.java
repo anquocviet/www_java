@@ -19,8 +19,6 @@ public record OrderDetailDto(
       @NotBlank
       String note,
 
-      OrderDto order,
-
       ProductDto product
 ) implements Serializable {
 }

@@ -1,6 +1,8 @@
 package fit.se.week03_lab_anquocviet_21080821.resources;
 
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
+import fit.se.week03_lab_anquocviet_21080821.dtos.ProductImageDto;
+import fit.se.week03_lab_anquocviet_21080821.dtos.ProductPriceDto;
 import fit.se.week03_lab_anquocviet_21080821.services.ProductService;
 import jakarta.ejb.EJB;
 import jakarta.validation.Valid;
@@ -39,11 +41,28 @@ public class ProductResource {
       return productService.getProductById(id);
    }
 
+
    @POST
    @Consumes("application/json")
    @Produces("application/json")
    public ProductDto addProduct(@Valid ProductDto productDto) {
       return productService.createProduct(productDto);
+   }
+
+   @POST
+   @Path("/update-price/{productId}")
+   @Consumes("application/json")
+   @Produces("application/json")
+   public ProductDto updateProductPrice(@PathParam("productId") long productId, ProductPriceDto productPriceDto) {
+      return productService.updateProductPrice(productId, productPriceDto);
+   }
+
+   @POST
+   @Path("/update-image/{productId}")
+   @Consumes("application/json")
+   @Produces("application/json")
+   public ProductDto updateProductImage(@PathParam("productId") long productId, ProductImageDto productImageDto) {
+      return productService.updateProductImage(productId, productImageDto);
    }
 
    @PUT

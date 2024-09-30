@@ -1,11 +1,11 @@
 package fit.se.week03_lab_anquocviet_21080821.dtos;
 
 import fit.se.week03_lab_anquocviet_21080821.enums.ProductStatus;
+import fit.se.week03_lab_anquocviet_21080821.models.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * DTO for {@link fit.se.week03_lab_anquocviet_21080821.models.Product}
@@ -33,8 +33,10 @@ public record ProductDto(
       @NotNull(message = "Product status cannot be null")
       ProductStatus status,
 
-      Set<ProductPriceDto> prices,
+      @NotNull(message = "Product price cannot be null")
+      ProductPriceDto price,
 
-      Set<ProductImageDto> images
+      @NotNull(message = "Product image cannot be null")
+      ProductImageDto image
 ) implements Serializable {
 }

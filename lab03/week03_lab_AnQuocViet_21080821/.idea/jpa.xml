@@ -2,5 +2,6 @@
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="newEntityIdStrategy" />
+    <option name="packageNameForExtractSuperclass" value="fit.se.week03_lab_anquocviet_21080821.models" />
   </component>
 </project>

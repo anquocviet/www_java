@@ -1,11 +1,10 @@
 package fit.se.week03_lab_anquocviet_21080821.services;
 
-import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
+import fit.se.week03_lab_anquocviet_21080821.converters.EmployeeConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.EmployeeDto;
-import fit.se.week03_lab_anquocviet_21080821.models.Employee;
 import fit.se.week03_lab_anquocviet_21080821.repositories.EmployeeRepository;
-import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
@@ -18,20 +17,20 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class EmployeeService {
-   @EJB
+   @Inject
    private EmployeeRepository employeeRepository;
 
    public Set<EmployeeDto> getAllEmployees() {
       return employeeRepository
                    .findAll().stream()
-                   .map(e -> ModelDtoConverter.convertToDto(e, EmployeeDto.class))
+                   .map(EmployeeConverter::convertToDto)
                    .collect(Collectors.toSet());
    }
 
    public EmployeeDto getEmployeeById(long id) {
       return employeeRepository
                    .findById(id)
-                   .map(e -> ModelDtoConverter.convertToDto(e, EmployeeDto.class))
+                   .map(EmployeeConverter::convertToDto)
                    .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
    }
 
@@ -42,7 +41,7 @@ public class EmployeeService {
       employeeRepository.findById(employeeDto.id()).ifPresent(e -> {
          throw new IllegalStateException("Employee already exists");
       });
-      employeeRepository.create(ModelDtoConverter.convertToModel(employeeDto, Employee.class));
+      employeeRepository.create(EmployeeConverter.convertToModel(employeeDto));
       return employeeDto;
    }
 
@@ -52,7 +51,7 @@ public class EmployeeService {
       }
       employeeRepository.findById(employeeDto.id()).orElseThrow(
             () -> new EntityNotFoundException("Employee not found"));
-      employeeRepository.update(ModelDtoConverter.convertToModel(employeeDto, Employee.class));
+      employeeRepository.update(EmployeeConverter.convertToModel(employeeDto));
       return employeeDto;
    }
 

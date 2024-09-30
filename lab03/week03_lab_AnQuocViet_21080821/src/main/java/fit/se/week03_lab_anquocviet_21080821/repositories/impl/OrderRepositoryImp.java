@@ -2,7 +2,6 @@ package fit.se.week03_lab_anquocviet_21080821.repositories.impl;
 
 import fit.se.week03_lab_anquocviet_21080821.models.Order;
 import fit.se.week03_lab_anquocviet_21080821.repositories.OrderRepository;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 19/9/24
  */
-@Stateless
 public class OrderRepositoryImp implements OrderRepository {
    @PersistenceContext
    private EntityManager entityManager;

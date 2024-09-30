@@ -1,3 +1,13 @@
+GET http://localhost:8080/api/products/10
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2024-09-30T152838.404.html
+
+###
+
 GET http://localhost:8080/api/products
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.1
 Accept-Encoding: br, deflate, gzip, x-gzip

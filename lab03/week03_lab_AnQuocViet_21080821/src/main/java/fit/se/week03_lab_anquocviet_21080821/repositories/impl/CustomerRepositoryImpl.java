@@ -2,7 +2,6 @@ package fit.se.week03_lab_anquocviet_21080821.repositories.impl;
 
 import fit.se.week03_lab_anquocviet_21080821.models.Customer;
 import fit.se.week03_lab_anquocviet_21080821.repositories.CustomerRepository;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 19/9/24
  */
-@Stateless
 public class CustomerRepositoryImpl implements CustomerRepository {
    @PersistenceContext
    private EntityManager entityManager;

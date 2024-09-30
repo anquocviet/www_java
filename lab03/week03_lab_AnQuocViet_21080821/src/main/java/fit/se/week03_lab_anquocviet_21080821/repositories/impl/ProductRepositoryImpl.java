@@ -2,8 +2,9 @@ package fit.se.week03_lab_anquocviet_21080821.repositories.impl;
 
 import fit.se.week03_lab_anquocviet_21080821.enums.ProductStatus;
 import fit.se.week03_lab_anquocviet_21080821.models.Product;
+import fit.se.week03_lab_anquocviet_21080821.models.ProductImage;
+import fit.se.week03_lab_anquocviet_21080821.models.ProductPrice;
 import fit.se.week03_lab_anquocviet_21080821.repositories.ProductRepository;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
  * @author: vie
  * @date: 18/9/24
  */
-@Stateless
 public class ProductRepositoryImpl implements ProductRepository {
    @PersistenceContext
    private EntityManager entityManager;
@@ -30,6 +30,8 @@ public class ProductRepositoryImpl implements ProductRepository {
    @Override
    @Transactional
    public Product create(Product product) {
+      product.getPrices().forEach(entityManager::persist);
+      product.getImages().forEach(entityManager::persist);
       entityManager.persist(product);
       return product;
    }
@@ -65,5 +67,23 @@ public class ProductRepositoryImpl implements ProductRepository {
                    .setParameter("ids", ids)
                    .getResultStream()
                    .collect(Collectors.toSet());
+   }
+
+   @Override
+   @Transactional
+   public Product updatePrice(Product product, ProductPrice price) {
+      product.getPrices().add(price);
+      entityManager.persist(price);
+      entityManager.merge(product);
+      return product;
+   }
+
+   @Override
+   @Transactional
+   public Product updateImage(Product product, ProductImage image) {
+      product.getImages().add(image);
+      entityManager.persist(image);
+      entityManager.merge(product);
+      return product;
    }
 }

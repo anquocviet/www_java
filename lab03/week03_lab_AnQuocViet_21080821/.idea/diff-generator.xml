@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DiffGenerationConfig">
+  <component name="DiffGenerationConfig" isInitGenerateDdl="true">
+    <option name="initGenerateDdl" value="true" />
     <option name="sourceModelValue" value="week03_lab_AnQuocViet_21080821.main:week03-mariadb" />
     <option name="targetDbValue" value="9315087f-ce75-46a3-af98-a2ecf3df9dda" />
   </component>

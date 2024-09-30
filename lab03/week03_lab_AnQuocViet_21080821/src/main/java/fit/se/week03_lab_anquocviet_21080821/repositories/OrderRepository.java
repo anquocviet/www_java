@@ -1,12 +1,10 @@
 package fit.se.week03_lab_anquocviet_21080821.repositories;
 
 import fit.se.week03_lab_anquocviet_21080821.models.Order;
-import jakarta.ejb.Local;
 
 import java.time.LocalDate;
 import java.util.Map;
 
-@Local
 public interface OrderRepository extends IRepository<Order> {
    Map<Long, Double> statisticsByDate(LocalDate localDate);
 

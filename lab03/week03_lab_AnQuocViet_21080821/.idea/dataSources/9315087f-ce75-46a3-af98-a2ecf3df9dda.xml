@@ -1294,7 +1294,7 @@
     </schema>
     <schema id="515" parent="1" name="www-week03">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-09-20.14:35:40</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-09-30.13:04:44</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_uca1400_ai_ci</CollationName>
     </schema>
     <user id="516" parent="1" name="healthcheck">
@@ -1553,6 +1553,7 @@ product_id</ColNames>
       <StoredType>datetime|0s</StoredType>
     </column>
     <column id="574" parent="527" name="product_id">
+      <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>bigint(20)|0s</StoredType>
     </column>
@@ -1571,7 +1572,8 @@ product_id</ColNames>
       <RefTableName>products</RefTableName>
     </foreign-key>
     <index id="578" parent="527" name="PRIMARY">
-      <ColNames>price_date_time</ColNames>
+      <ColNames>price_date_time
+product_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>

@@ -1,6 +1,5 @@
 package fit.se.week03_lab_anquocviet_21080821.dtos;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,9 +21,6 @@ import java.util.Set;
  */
 public record CreateOrderDto(
       @NotNull
-      long id,
-
-      @NotNull
       LocalDateTime orderDate,
 
       @NotNull
@@ -41,20 +37,15 @@ public record CreateOrderDto(
     * Data Transfer Object (DTO) for creating order details.
     * This class is used to transfer order detail data between processes.
     *
-    * @param price The price of the product. Must not be null.
     * @param quantity The quantity of the product ordered. Must not be null.
     * @param note Additional notes about the order detail. Must not be null or blank.
     * @param productId The ID of the product. Must not be null or blank.
     */
    public record CreateOrderDetailDto(
          @NotNull
-         double price,
-
-         @NotNull
          double quantity,
 
          @NotNull
-         @NotBlank
          String note,
 
          @NotNull

@@ -1,11 +1,10 @@
 package fit.se.week03_lab_anquocviet_21080821.services;
 
-import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
+import fit.se.week03_lab_anquocviet_21080821.converters.CustomerConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto;
-import fit.se.week03_lab_anquocviet_21080821.models.Customer;
 import fit.se.week03_lab_anquocviet_21080821.repositories.CustomerRepository;
-import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Set;
@@ -19,20 +18,20 @@ import java.util.stream.Collectors;
 
 @Stateless
 public class CustomerService {
-   @EJB
+   @Inject
    private CustomerRepository customerRepository;
 
    public Set<CustomerDto> getAllCustomers() {
       return customerRepository
                    .findAll().stream()
-                   .map(c -> ModelDtoConverter.convertToDto(c, CustomerDto.class))
+                   .map(CustomerConverter::convertToDto)
                    .collect(Collectors.toSet());
    }
 
    public CustomerDto getCustomerById(long id) {
       return customerRepository
                    .findById(id)
-                   .map(c -> ModelDtoConverter.convertToDto(c, CustomerDto.class))
+                   .map(CustomerConverter::convertToDto)
                    .orElseThrow(() -> new RuntimeException("Customer not found"));
    }
 
@@ -43,7 +42,7 @@ public class CustomerService {
       customerRepository.findById(customerDto.id()).ifPresent(c -> {
          throw new IllegalStateException("Customer already exists");
       });
-      customerRepository.create(ModelDtoConverter.convertToModel(customerDto, Customer.class));
+      customerRepository.create(CustomerConverter.convertToModel(customerDto));
       return customerDto;
    }
 
@@ -53,7 +52,7 @@ public class CustomerService {
       }
       customerRepository.findById(customerDto.id()).orElseThrow(
             () -> new EntityNotFoundException("Customer not found"));
-      customerRepository.update(ModelDtoConverter.convertToModel(customerDto, Customer.class));
+      customerRepository.update(CustomerConverter.convertToModel(customerDto));
       return customerDto;
    }
 

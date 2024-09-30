@@ -1,16 +1,15 @@
 package fit.se.week03_lab_anquocviet_21080821.services;
 
-import fit.se.week03_lab_anquocviet_21080821.converters.ModelDtoConverter;
+import fit.se.week03_lab_anquocviet_21080821.converters.OrderConverter;
 import fit.se.week03_lab_anquocviet_21080821.dtos.CreateOrderDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.EmployeeDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.OrderDetailDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.OrderDto;
 import fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto;
-import fit.se.week03_lab_anquocviet_21080821.models.Order;
 import fit.se.week03_lab_anquocviet_21080821.repositories.OrderRepository;
-import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.time.LocalDate;
@@ -24,26 +23,26 @@ import java.util.stream.Collectors;
  */
 @Stateless
 public class OrderService {
-   @EJB
+   @Inject
    private OrderRepository orderRepository;
-   @EJB
+   @Inject
    private CustomerService customerService;
-   @EJB
+   @Inject
    private EmployeeService employeeService;
-   @EJB
+   @Inject
    private ProductService productService;
 
    public Set<OrderDto> getAllOrders() {
       return orderRepository
                    .findAll().stream()
-                   .map(o -> ModelDtoConverter.convertToDto(o, OrderDto.class))
+                   .map(OrderConverter::convertToDto)
                    .collect(Collectors.toSet());
    }
 
    public OrderDto getOrderById(long id) {
       return orderRepository
                    .findById(id)
-                   .map(o -> ModelDtoConverter.convertToDto(o, OrderDto.class))
+                   .map(OrderConverter::convertToDto)
                    .orElseThrow(() -> new RuntimeException("Order not found"));
    }
 
@@ -51,9 +50,6 @@ public class OrderService {
       if (dto == null) {
          throw new IllegalArgumentException("Order cannot be null");
       }
-      orderRepository.findById(dto.id()).ifPresent(o -> {
-         throw new IllegalArgumentException("Order already exists");
-      });
       CustomerDto customer = customerService.getCustomerById(dto.customerId());
       if (customer == null) {
          throw new IllegalArgumentException("Customer not found");
@@ -68,24 +64,23 @@ public class OrderService {
                   .map(od -> {
                            ProductDto product = productService.getProductById(od.productId());
                            return new OrderDetailDto(
-                                 od.price(),
+                                 product.price().price(),
                                  od.quantity(),
                                  od.note(),
-                                 null,
                                  product
                            );
                         }
                   )
                   .collect(Collectors.toSet());
       OrderDto orderDto = new OrderDto(
-            dto.id(),
+            0,
             dto.orderDate(),
             employee,
             customer,
             orderDetailDtos
       );
 
-      orderRepository.create(ModelDtoConverter.convertToModel(orderDto, Order.class));
+      orderRepository.create(OrderConverter.convertToModel(orderDto));
       return orderDto;
    }
 
@@ -95,7 +90,7 @@ public class OrderService {
       }
       orderRepository.findById(orderDto.id()).orElseThrow(
             () -> new EntityNotFoundException("Order not found"));
-      orderRepository.update(ModelDtoConverter.convertToModel(orderDto, Order.class));
+      orderRepository.update(OrderConverter.convertToModel(orderDto));
       return orderDto;
    }
 
@@ -133,9 +128,12 @@ public class OrderService {
       return orderRepository.statisticsByEmployeeBetweenDates(employeeId, localFromDate, localToDate)
                    .entrySet()
                    .stream()
-                   .map(e -> String.format("Employee: %s\nDate: %s - %s\nQuantity of orders: %d\nTotal amount: %f",
+                   .map(e -> String.format("""
+                               Employee: %s
+                               Date: %s - %s
+                               Quantity of orders: %d
+                               Total amount: %f""",
                          employeeId, fromDate, toDate, e.getKey(), e.getValue()))
                    .reduce("", (a, b) -> a + "\n" + b);
    }
-
 }

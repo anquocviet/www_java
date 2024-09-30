@@ -1,7 +1,11 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="fit.se.week03_lab_anquocviet_21080821.dtos.ProductDto" %>
 <%@ page import="fit.se.week03_lab_anquocviet_21080821.dtos.EmployeeDto" %>
-<%@ page import="fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto" %><%--
+<%@ page import="fit.se.week03_lab_anquocviet_21080821.dtos.CustomerDto" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %><%--
   Created by IntelliJ IDEA.
   User: vie
   Date: 20/9/24
@@ -12,6 +16,7 @@
 <html>
 <head>
     <title>Cart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <style>
@@ -41,26 +46,20 @@
     }
 </style>
 
-<body>
 <%
     Set<ProductDto> products = (Set<ProductDto>) request.getAttribute("products");
-    Set<EmployeeDto> employees = (Set<EmployeeDto>) request.getAttribute("employees");
-    Set<CustomerDto> customers = (Set<CustomerDto>) request.getAttribute("customers");
 %>
+
+<body>
 <form action="controller" method="post">
+
+    <input type="hidden" name="action" value="buy">
     <h1>Employees</h1>
-    <select>
-        <% for (EmployeeDto employee : employees) { %>
-        <option value="<%= employee.id() %>"><%= employee.fullName()  %> - (<%= employee.phone() %>)
-        </option>
-        <% } %>
+    <select name="employeeId" class="select-employee">
+
     </select>
     <h1>Customers</h1>
-    <select>
-        <% for (CustomerDto customer : customers) { %>
-        <option value="<%= customer.id() %>"><%= customer.name()  %> - (<%= customer.phone() %>)
-        </option>
-        <% } %>
+    <select name="customerId" class="select-customer">
     </select>
 
     <h1>Products</h1>
@@ -86,14 +85,39 @@
             </td>
             <td><%= product.manufacturer() %>
             </td>
-            <td><%= product.prices().iterator().next().price() %>
+            <td><%= product.price().price() %>
             </td>
-            <td><input type="number" name="quantity" value="1" min="1"/></td>
+            <td>
+                <input type="hidden" name="productId" value="<%= product.id() %>">
+                <input type="number" name="quantity" value="1">
+            </td>
         </tr>
         <% } %>
         </tbody>
     </table>
-    <button type="submit" name="action" value="buy">Buy</button>
+    <button class="pay" type="submit" name="action" value="buy">Buy</button>
 </form>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('api/employees', function (data) {
+            data.forEach(function (employee) {
+                $('.select-employee').append(`<option value="\${employee.id}">
+                    \${employee.fullName} - \${employee.phone}
+                </option>`);
+            });
+        });
+    });
+    $(document).ready(function () {
+        $.getJSON('api/customers', function (data) {
+            data.forEach(function (customer) {
+                $('.select-customer').append(`<option value="\${customer.id}">
+                \${customer.name} - \${customer.phone}
+                </option>`);
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

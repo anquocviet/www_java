@@ -5,24 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e0be82d-cf47-48cc-a91a-8922d8258d95" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/9315087f-ce75-46a3-af98-a2ecf3df9dda.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9315087f-ce75-46a3-af98-a2ecf3df9dda.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/diff-generator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/diff-generator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/exceptions/ValidationExceptionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/exceptions/ValidationExceptionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/controllers/ControllerServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/converters/ModelDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/CreateOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/CreateOrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/OrderDetailDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/OrderDetailDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductImageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/dtos/ProductImageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/OrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/OrderDetail.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/CustomerRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/EmployeeRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/OrderRepositoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/ProductRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/CustomerResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/CustomerResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/EmployeeResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/EmployeeResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/OrderResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/OrderResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductPrice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/models/ProductPrice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/CustomerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/CustomerRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/CustomerRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/EmployeeRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/EmployeeRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/OrderRepositoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/OrderRepositoryImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/ProductRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/repositories/impl/ProductRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/ProductResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/resources/ProductResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/CustomerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/EmployeeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fit/se/week03_lab_anquocviet_21080821/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cart.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cart.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,14 +69,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="com.intellij.jpb.JpaEntity" />
         <option value="Enum" />
         <option value="com.intellij.jpb.NewInterface" />
         <option value="com.intellij.jpb.NewClass" />
-        <option value="com.intellij.jpb.FlywayMigrationScript" />
         <option value="Jsp File" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="com.intellij.jpb.JpaEntity" />
+        <option value="Class" />
+        <option value="com.intellij.jpb.FlywayMigrationScript" />
       </list>
     </option>
   </component>
@@ -114,6 +129,8 @@
     "Gradle.Build week03_lab_AnQuocViet_21080821.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "HTTP Request.generated-requests | #1.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "HTTP Request.generated-requests | #3.executor": "Run",
     "Payara Server.Payara 6.19.0.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
@@ -126,7 +143,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "settings.editor.selected.configurable": "configurable.group.com.intellij.jpa.jpb.model.tools",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -267,7 +284,10 @@
       <workItem from="1726836354724" duration="5943000" />
       <workItem from="1726907261452" duration="4679000" />
       <workItem from="1726920469964" duration="3253000" />
-      <workItem from="1727406226705" duration="3399000" />
+      <workItem from="1727406226705" duration="3584000" />
+      <workItem from="1727522238276" duration="6762000" />
+      <workItem from="1727671214871" duration="1281000" />
+      <workItem from="1727680052752" duration="19863000" />
     </task>
     <servers />
   </component>
