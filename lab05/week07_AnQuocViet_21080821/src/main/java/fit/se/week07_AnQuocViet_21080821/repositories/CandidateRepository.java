@@ -1,6 +1,7 @@
 package fit.se.week07_AnQuocViet_21080821.repositories;
 
 import fit.se.week07_AnQuocViet_21080821.models.Candidate;
+import fit.se.week07_AnQuocViet_21080821.models.SkillCandidate;
 import fit.se.week07_AnQuocViet_21080821.models.mapper.CandidateMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -80,6 +81,22 @@ public class CandidateRepository {
          return true;
       } else {
          logger.warning("Failed to delete candidate");
+         return false;
+      }
+   }
+
+   public boolean addSkillOfCandidate(SkillCandidate sc) {
+      String sql = "INSERT INTO skill_candidates (candidate_id, skill_id, level) VALUES (?, ?)";
+      int result = temp.update(sql,
+            sc.getCandidate().getId(),
+            sc.getSkill().getId(),
+            sc.getLevel()
+      );
+      if (result == 1) {
+         logger.info("Skill added to candidate successfully");
+         return true;
+      } else {
+         logger.warning("Failed to add skill to candidate");
          return false;
       }
    }
