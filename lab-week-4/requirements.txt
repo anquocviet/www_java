@@ -1,0 +1,11 @@
+create table:
+
+Candidate(id, last_name, middle_name, first_name, dob, email, address, phone)
+Skill(id, skill_name, description, field)
+Job(id, description)
+
+Relationship:
+	A candidate has many skills, a skill can belong to many candidate. Candidate has skills with different level(1..5)
+	A job needs many skills, a skill can belong to many job. A job require skill with a special level.
+
+Create an web page for seeking. Pls suggesting candidates that relevant to a special job.
