@@ -1,10 +1,10 @@
 package fit.se.backend.exceptions;
 
 import org.springframework.validation.BindException;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
 
       ModelAndView mav = new ModelAndView(ERROR_VIEW);
       mav.addObject(ERROR_MESSAGE_ATTRIBUTE, e.getAllErrors().get(0).getDefaultMessage());
+      return mav;
+   }
+
+   @ExceptionHandler(NoResourceFoundException.class)
+   public ModelAndView handleNoResourceFoundException(NoResourceFoundException e) {
+      logger.log(Level.SEVERE, "Resource not found: ", e);
+
+      ModelAndView mav = new ModelAndView(ERROR_VIEW);
+      mav.addObject(ERROR_MESSAGE_ATTRIBUTE, "Path not found");
       return mav;
    }
 

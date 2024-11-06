@@ -11,6 +11,7 @@ public record CompanyDto(
       String email,
       String compName,
       String phone,
-      String webUrl
+      String webUrl,
+      AddressDto address
 ) implements Serializable {
 }

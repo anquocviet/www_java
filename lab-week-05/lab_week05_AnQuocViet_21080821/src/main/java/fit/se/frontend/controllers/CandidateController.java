@@ -1,11 +1,9 @@
 package fit.se.frontend.controllers;
 
 import com.neovisionaries.i18n.CountryCode;
-import fit.se.backend.dtos.AddressDto;
 import fit.se.backend.dtos.CandidateDto;
 import fit.se.backend.services.CandidateService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,12 +31,19 @@ public class CandidateController {
    }
 
    @GetMapping(value = {"", "/"})
-   public ModelAndView listCandidates(Optional<Integer> page, Optional<Integer> size) {
+   public ModelAndView listCandidates(Optional<Integer> page, Optional<Integer> size, Optional<String> search) {
       ModelAndView mav = new ModelAndView("candidates/candidates-paging");
       int currentPage = page.orElse(1);
       int pageSize = size.orElse(10);
-      Page<CandidateDto> candidatePage = candidateService.findAllWithPagination(
-            currentPage - 1, pageSize, "id", "asc");
+
+      Page<CandidateDto> candidatePage;
+      if (search.isPresent() && !search.get().isEmpty()) {
+         candidatePage = candidateService.search(search.get(), currentPage - 1, pageSize, "id", "asc");
+         mav.addObject("search", search.get());
+      } else {
+         candidatePage = candidateService.findAllWithPagination(
+               currentPage - 1, pageSize, "id", "asc");
+      }
       mav.addObject("candidatePage", candidatePage);
 
       int totalPages = candidatePage.getTotalPages();

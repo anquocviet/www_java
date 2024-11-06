@@ -5,13 +5,13 @@ import fit.se.backend.exceptions.AppException;
 import fit.se.backend.mappers.CandidateMapper;
 import fit.se.backend.models.Candidate;
 import fit.se.backend.repositories.CandidateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,5 +57,17 @@ public class CandidateService {
       Candidate candidate = candidateMapper.toEntity(candidateDto);
       candidateRepository.save(candidate);
       return candidateMapper.toDto(candidate);
+   }
+
+   public Page<CandidateDto> search(String keyword, int pageNo, int pageSize, String sortBy, String sortDir) {
+      Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
+      Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+      return candidateRepository
+                   .searchCandidatesRelativeByFullNameOrPhoneOrEmail("%" + keyword + "%", pageable)
+                   .map(candidateMapper::toDto);
+   }
+
+   public List<CandidateDto> findCandidatesForJob(Long id) {
+      throw new UnsupportedOperationException("Not implemented yet");
    }
 }

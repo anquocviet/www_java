@@ -37,12 +37,12 @@
         </ul>
     </nav>
 
-    <h1 class="text-center my-4">List Candidates</h1>
-    <form class="d-flex mb-4" method="get" action="/candidates">
+    <h1 class="text-center my-4">List Company</h1>
+    <form class="d-flex mb-4" method="get" action="/companies">
         <input class="form-control me-2"
                type="search"
                name="search"
-               placeholder="Search by name, email, phone..."
+               placeholder="Search by name, email, phone, web url..."
                aria-label="Search"
                th:value="${search}"
         >
@@ -51,7 +51,7 @@
 
     <div class="row mb-3">
         <div class="col">
-            <a href="/add-candidate" class="btn btn-primary">Add a new Candidate</a>
+            <a href="/add-candidate" class="btn btn-primary">Add a new company</a>
         </div>
     </div>
     <table class="table table-hover table-striped">
@@ -59,48 +59,46 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Date of Birth</th>
             <th>Address</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>View jobs</th>
+            <th>About company</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="candidate, iStat : ${candidatePage}"
+        <tr th:each="company, iStat : ${companyPage}"
             th:classappend="${iStat.odd} ? 'table-active' : ''"
             th:title="${iStat.even} ? 'even' : 'odd'">
-            <td th:text="${candidate.id}"></td>
-            <td th:text="${candidate.fullName}"></td>
-            <td th:text="${#temporals.format(candidate.dob, 'dd/MM/yyyy')}"></td>
-            <td th:object="${candidate.address}">
+            <td th:text="${company.id()}"></td>
+            <td th:text="${company.compName()}"></td>
+            <td th:object="${company.address}">
                 <span th:text="*{street}"></span>,
                 <span th:text="*{city}"></span>,
                 <span th:text="*{country.name}"></span>
             </td>
-            <td th:text="${candidate.phone}"></td>
-            <td th:text="${candidate.email}"></td>
-            <td><a th:href="@{/jobs/candidate/{id}(id=${candidate.id})}" class="btn btn-info btn-sm">View jobs</a></td>
-            <td><a th:href="@{/candidates/edit/{id}(id=${candidate.id})}" class="btn btn-warning btn-sm">Edit</a></td>
-            <td><a th:href="@{/delete/{id}(id=${candidate.id})}" class="btn btn-danger btn-sm">Delete</a></td>
+            <td th:text="${company.phone}"></td>
+            <td th:text="${company.email}"></td>
+            <td><a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">View more</a></td>
+            <td><a th:href="@{/companies/edit/{id}(id=${company.id})}" class="btn btn-warning btn-sm">Edit</a></td>
+            <td><a th:href="@{/delete/{id}(id=${company.id})}" class="btn btn-danger btn-sm">Delete</a></td>
         </tr>
         </tbody>
     </table>
-    <div class="d-flex justify-content-center mt-4" th:if="${candidatePage.totalPages > 0}">
+    <div class="d-flex justify-content-center mt-4" th:if="${companyPage.totalPages > 0}">
         <nav>
             <ul class="pagination flex-wrap">
                 <li class="page-item" th:each="pageNumber : ${pageNumbers}">
                     <a class="page-link"
-                       th:href="@{/candidates(size=${candidatePage.size}, page=${pageNumber}, search=${search})}"
+                       th:href="@{/companies(size=${companyPage.size}, page=${pageNumber}, search=${search})}"
                        th:if="${search != null and search != ''}"
                        th:text="${pageNumber}"
-                       th:classappend="${pageNumber == candidatePage.number + 1} ? 'active' : ''"></a>
-                    <a class="page-link" th:href="@{/candidates(size=${candidatePage.size}, page=${pageNumber})}"
+                       th:classappend="${pageNumber == companyPage.number + 1} ? 'active' : ''"></a>
+                    <a class="page-link" th:href="@{/companies(size=${companyPage.size}, page=${pageNumber})}"
                        th:if="${search == null or search == ''}"
                        th:text="${pageNumber}"
-                       th:classappend="${pageNumber == candidatePage.number + 1} ? 'active' : ''"></a>
+                       th:classappend="${pageNumber == companyPage.number + 1} ? 'active' : ''"></a>
                 </li>
             </ul>
         </nav>

@@ -1,10 +1,12 @@
 package fit.se.frontend.controllers;
 
 import fit.se.backend.dtos.JobDto;
+import fit.se.backend.services.CandidateService;
 import fit.se.backend.services.JobService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,14 +23,16 @@ import java.util.stream.IntStream;
 @RequestMapping("/jobs")
 public class JobController {
    private final JobService jobService;
+   private final CandidateService candidateService;
 
-   public JobController(JobService jobService) {
+   public JobController(JobService jobService, CandidateService candidateService) {
       this.jobService = jobService;
+      this.candidateService = candidateService;
    }
 
    @GetMapping(value = {"", "/"})
    public ModelAndView listJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> search) {
-      ModelAndView mav = new ModelAndView("jobs/jobs_paging");
+      ModelAndView mav = new ModelAndView("jobs/jobs-paging");
       int currentPage = page.orElse(1);
       int pageSize = size.orElse(10);
       // Check if search is present
@@ -49,6 +53,30 @@ public class JobController {
                                            .toList();
          mav.addObject("pageNumbers", pageNumbers);
       }
+      return mav;
+   }
+
+   @GetMapping("/candidate/{id}")
+   public ModelAndView listJobsForCandidate(@PathVariable Long id) {
+      ModelAndView mav = new ModelAndView("jobs/jobs-for-candidate");
+      List<JobDto> listJob = jobService.findJobsForCandidate(id);
+      mav.addObject("candidate", candidateService.findById(id));
+      mav.addObject("listJob", listJob);
+      return mav;
+   }
+
+   @GetMapping("/{id}/candidates")
+   public ModelAndView listCandidatesForJob(@PathVariable Long id) {
+      ModelAndView mav = new ModelAndView("jobs/candidates-for-job");
+      JobDto job = jobService.findById(id);
+      mav.addObject("job", job);
+      mav.addObject("listCandidate", candidateService.findCandidatesForJob(id));
+      return mav;
+   }
+
+   @GetMapping("/add")
+   public ModelAndView add() {
+      ModelAndView mav = new ModelAndView("jobs/add");
       return mav;
    }
 }

@@ -8,6 +8,20 @@
 </head>
 <body>
 <div class="container">
+    <nav class="navbar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/jobs">Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/candidates">Candidate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/companies">Company</a>
+            </li>
+        </ul>
+    </nav>
+
     <h1 class="text-center my-4">List Jobs</h1>
     <form class="d-flex mb-4" method="get" action="/jobs">
         <input class="form-control me-2"
@@ -20,6 +34,7 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 
+    <a href="/jobs/add" class="btn btn-primary mb-4">Add Job</a>
     <table class="table table-hover table-striped">
         <thead>
         <tr>
@@ -57,21 +72,21 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-center mt-4" th:if="${jobPage.totalPages > 0}">
-    <nav>
-        <ul class="pagination flex-wrap">
-            <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                <a class="page-link" th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber}, search=${search})}"
-                   th:if="${search != null and search != ''}"
-                   th:text="${pageNumber}"
-                   th:classappend="${pageNumber == jobPage.number + 1} ? 'active' : ''"></a>
-                <a class="page-link" th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber})}"
-                   th:if="${search == null or search == ''}"
-                   th:text="${pageNumber}"
-                   th:classappend="${pageNumber == jobPage.number + 1} ? 'active' : ''"></a>
-            </li>
-        </ul>
-    </nav>
-</div>
+        <nav>
+            <ul class="pagination flex-wrap">
+                <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                    <a class="page-link" th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber}, search=${search})}"
+                       th:if="${search != null and search != ''}"
+                       th:text="${pageNumber}"
+                       th:classappend="${pageNumber == jobPage.number + 1} ? 'active' : ''"></a>
+                    <a class="page-link" th:href="@{/jobs(size=${jobPage.size}, page=${pageNumber})}"
+                       th:if="${search == null or search == ''}"
+                       th:text="${pageNumber}"
+                       th:classappend="${pageNumber == jobPage.number + 1} ? 'active' : ''"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 </body>
 </html>

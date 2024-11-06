@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Job for Candidate</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/jobs">Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/candidates">Candidate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/companies">Company</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h1>Candidate Information</h1>
+    <p>
+        <b>Full name: </b>
+        <span th:text="${candidate.fullName()}"></span>
+    </p>
+    <p>
+        <b>Email: </b>
+        <span th:text="${candidate.email()}"></span>
+    </p>
+    <p>
+        <b>Phone: </b>
+        <span th:text="${candidate.phone()}"></span>
+    </p>
+    <p>
+        <b>Address: </b>
+        <span th:text="${candidate.address().street()}"></span>,
+        <span th:text="${candidate.address().city()}"></span>,
+        <span th:text="${candidate.address().country().name}"></span>
+    </p>
+    <h1>
+        List Jobs for Candidate
+    </h1>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Company</th>
+            <th>Skills</th>
+            <th>More Info</th>
+            <th>About company</th>
+            <th>Apply</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="job: ${listJob}">
+            <td th:text="${job.id()}"></td>
+            <td th:text="${job.jobName()}"></td>
+            <td th:text="${job.jobDesc()}"></td>
+            <td th:text="${job.companyName()}"></td>
+            <td>
+                <ul>
+                    <li th:each="jobSkill : ${job.jobSkills()}">
+                        <span th:text="${jobSkill.skill().skillName()}"></span>:
+                        <span th:text="${jobSkill.skillLevel()}"></span> -
+                        <span th:text="${jobSkill.skill().type()}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td th:text="${job.jobDesc()}"></td>
+            <td><a th:href="@{/companies/{id}(id=${job.companyId()})}" class="btn btn-info btn-sm">View more</a>
+            </td>
+            <td><a th:href="@{/apply-job/{id}(id=${job.id()})}" class="btn btn-success btn-sm">Apply</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>
