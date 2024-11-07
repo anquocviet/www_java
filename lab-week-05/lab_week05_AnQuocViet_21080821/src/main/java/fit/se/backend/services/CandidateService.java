@@ -1,6 +1,7 @@
 package fit.se.backend.services;
 
 import fit.se.backend.dtos.CandidateDto;
+import fit.se.backend.dtos.JobDto;
 import fit.se.backend.exceptions.AppException;
 import fit.se.backend.mappers.CandidateMapper;
 import fit.se.backend.models.Candidate;
@@ -24,12 +25,19 @@ import java.util.logging.Logger;
 public class CandidateService {
    private final CandidateRepository candidateRepository;
    private final AddressService addressService;
+   private final JobService jobService;
    private final CandidateMapper candidateMapper;
    private final Logger logger = Logger.getLogger(CandidateService.class.getName());
 
-   public CandidateService(CandidateRepository candidateRepository, AddressService addressService, CandidateMapper candidateMapper) {
+   public CandidateService(
+         CandidateRepository candidateRepository,
+         AddressService addressService,
+         JobService jobService,
+         CandidateMapper candidateMapper
+   ) {
       this.candidateRepository = candidateRepository;
       this.addressService = addressService;
+      this.jobService = jobService;
       this.candidateMapper = candidateMapper;
    }
 
@@ -67,7 +75,13 @@ public class CandidateService {
                    .map(candidateMapper::toDto);
    }
 
-   public List<CandidateDto> findCandidatesForJob(Long id) {
-      throw new UnsupportedOperationException("Not implemented yet");
+   public List<CandidateDto> findCandidatesForJob(Long jobId) {
+      JobDto job = jobService.findById(jobId);
+      return job.jobSkills().stream()
+                   .map(jobSkill -> candidateRepository.findCandidatesBySkillLevelAndSkillName(
+                         jobSkill.skillLevel(), jobSkill.skill().skillName()))
+                   .flatMap(List::stream)
+                   .map(candidateMapper::toDto)
+                   .toList();
    }
 }

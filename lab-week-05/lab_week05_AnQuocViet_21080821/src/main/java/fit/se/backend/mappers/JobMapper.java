@@ -12,6 +12,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface JobMapper {
    @Mapping(target = "companyId", source = "company.id")
    @Mapping(target = "companyName", source = "company.compName")
+   @Mapping(target = "companyEmail", source = "company.email")
    JobDto toDto(Job job);
 
    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

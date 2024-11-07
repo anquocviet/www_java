@@ -1,8 +1,10 @@
 package fit.se.frontend.controllers;
 
+import fit.se.backend.dtos.CandidateDto;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.services.CandidateService;
 import fit.se.backend.services.JobService;
+import fit.se.backend.utils.JobManager;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,12 @@ import java.util.stream.IntStream;
 public class JobController {
    private final JobService jobService;
    private final CandidateService candidateService;
+   private final JobManager jobManager;
 
-   public JobController(JobService jobService, CandidateService candidateService) {
+   public JobController(JobService jobService, CandidateService candidateService, JobManager jobManager) {
       this.jobService = jobService;
       this.candidateService = candidateService;
+      this.jobManager = jobManager;
    }
 
    @GetMapping(value = {"", "/"})
@@ -66,11 +70,23 @@ public class JobController {
    }
 
    @GetMapping("/{id}/candidates")
-   public ModelAndView listCandidatesForJob(@PathVariable Long id) {
+   public ModelAndView listCandidatesForJob(@PathVariable("id") Long jobId) {
       ModelAndView mav = new ModelAndView("jobs/candidates-for-job");
-      JobDto job = jobService.findById(id);
+      JobDto job = jobService.findById(jobId);
       mav.addObject("job", job);
-      mav.addObject("listCandidate", candidateService.findCandidatesForJob(id));
+      mav.addObject("listCandidate", candidateService.findCandidatesForJob(jobId));
+      return mav;
+   }
+
+   @GetMapping("/{jobId}/{candidateId}/send-email")
+   public ModelAndView sendEmail(@PathVariable("jobId") Long jobId, @PathVariable("candidateId") Long candidateId) {
+      ModelAndView mav = new ModelAndView("jobs/send-email");
+      JobDto job = jobService.findById(jobId);
+      CandidateDto candidate = candidateService.findById(candidateId);
+      jobManager.sendEmail(job, candidate);
+
+      mav.addObject("job", job);
+      mav.addObject("candidate", candidate);
       return mav;
    }
 

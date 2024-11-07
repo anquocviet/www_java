@@ -15,6 +15,7 @@ public record JobDto(
       String jobName,
       Long companyId,
       String companyName,
+      String companyEmail,
       @NotNull
       Set<JobSkillDto> jobSkills
 ) implements Serializable {

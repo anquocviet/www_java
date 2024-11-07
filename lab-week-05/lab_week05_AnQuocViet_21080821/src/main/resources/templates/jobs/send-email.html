@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send email</title>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/jobs">Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/candidates">Candidate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/companies">Company</a>
+            </li>
+        </ul>
+    </nav>
+
+    <h1>Send email successfully</h1>
+    <div th:object="${job}">
+        <h2>Job information</h2>
+        <p>
+            <b>Job name: </b>
+            <span th:text="${job.jobName()}"></span>
+        </p>
+        <p>
+            <b>Company: </b>
+            <span th:text="${job.companyName()}"></span>
+        </p>
+        <p>
+            <b>Company email: </b>
+            <span th:text="${job.companyEmail()}"></span>
+        </p>
+    </div>
+    <h2>Candidate information</h2>
+    <div th:object="${candidate}">
+        <p>
+            <b>Full name: </b>
+            <span th:text="${candidate.fullName()}"></span>
+        </p>
+        <p>
+            <b>Email: </b>
+            <span th:text="${candidate.email()}"></span>
+        </p>
+        <p>
+            <b>Phone: </b>
+            <span th:text="${candidate.phone()}"></span>
+        </p>
+    </div>
+</div>
+</body>
+</html>
