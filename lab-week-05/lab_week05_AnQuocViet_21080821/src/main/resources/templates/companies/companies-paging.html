@@ -62,6 +62,8 @@
             <th>Address</th>
             <th>Phone</th>
             <th>Email</th>
+            <th>Web</th>
+            <th>Add job</th>
             <th>About company</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -80,6 +82,8 @@
             </td>
             <td th:text="${company.phone}"></td>
             <td th:text="${company.email}"></td>
+            <td th:text="${company.webUrl}"></td>
+            <td><a th:href="@{/jobs/add(company=${company.id})}" class="btn btn-success btn-sm">Add job</a></td>
             <td><a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">View more</a></td>
             <td><a th:href="@{/companies/edit/{id}(id=${company.id})}" class="btn btn-warning btn-sm">Edit</a></td>
             <td><a th:href="@{/delete/{id}(id=${company.id})}" class="btn btn-danger btn-sm">Delete</a></td>

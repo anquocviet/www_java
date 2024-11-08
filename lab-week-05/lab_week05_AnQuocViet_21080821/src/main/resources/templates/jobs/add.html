@@ -3,8 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Job</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <h1>Add Job</h1>
+    <form method="post" action="/jobs/add">
+        <div th:object="${company}">
+            <input type="hidden" name="company" th:value="*{id}">
+            <p>
+                <b>Company name: </b>
+                <span th:text="*{compName}"></span>
+            </p>
+            <p>
+                <b>Company address: </b>
+                <span th:text="*{address().street}"></span>,
+                <span th:text="*{address().city}"></span>,
+                <span th:text="*{address().country.name}"></span>
+            </p>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Job name</label>
+            <input type="text" class="form-control" id="name" name="jobName">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="jobDesc"></textarea>
+        </div>
+        <div id="jobSkills">
+            <fieldset class="mb-3 row">
+                <div class="col">
+                    <label for="skill" class="form-label">Skill</label>
+                    <select class="form-select" id="skill" name="jobSkills[0].skillId">
+                        <option th:each="skill : ${skills}" th:value="${skill.id}"
+                                th:text="${skill.skillName}"></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="skill-level" class="form-label">Skill Level</label>
+                    <select class="form-select" id="skill-level" name="jobSkills[0].skillLevel">
+                        <option th:each="skillLevel : ${skillLevels}" th:value="${skillLevel}"
+                                th:text="${skillLevel}"></option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="more-info" class="form-label">More info</label>
+                    <input type="text" class="form-control" id="more-info" name="jobSkills[0].moreInfos">
+                </div>
+            </fieldset>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="addSkill()">Add Skill</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeSkill()">Remove Skill</button>
+        </div>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<!--Hidden templates-->
+<select id="skill-options-template" style="display: none;">
+    <option th:each="skill : ${skills}" th:value="${skill.id}" th:text="${skill.skillName}"></option>
+</select>
+<select id="skill-level-options-template" style="display: none;">
+    <option th:each="skillLevel : ${skillLevels}" th:value="${skillLevel}" th:text="${skillLevel}"></option>
+</select>
 
+<script>
+    let skillQuantity = 1;
+
+    const addSkill = () => {
+        // Clone options from the hidden templates
+        const skillOptions = document.getElementById('skill-options-template').innerHTML;
+        const skillLevelOptions = document.getElementById('skill-level-options-template').innerHTML;
+        const jobSkill = document.getElementById('jobSkills');
+        const fieldset = document.createElement('fieldset');
+        fieldset.className = 'mb-3 row';
+        fieldset.innerHTML = `
+            <div class="col">
+                <label for="skill" class="form-label">Skill</label>
+                <select class="form-select" id="skill" name="jobSkills[${skillQuantity}].skillId">
+                    ${skillOptions}
+                </select>
+            </div>
+            <div class="col">
+                <label for="skill-level" class="form-label">Skill Level</label>
+                <select class="form-select" id="skill-level" name="jobSkills[${skillQuantity}].skillLevel">
+                    ${skillLevelOptions}
+                </select>
+            </div>
+            <div class="col">
+                <label for="more-info" class="form-label">More info</label>
+                <input type="text" class="form-control" id="more-info" name="jobSkills[${skillQuantity}].moreInfo">
+            </div>
+        `;
+        jobSkill.appendChild(fieldset);
+
+        skillQuantity++;
+    };
+    const removeSkill = () => {
+        const jobSkill = document.getElementById('jobSkills');
+        if (skillQuantity > 1) {
+            // fieldset
+            jobSkill.getElementsByTagName('fieldset')[skillQuantity - 1].remove();
+            skillQuantity--;
+        }
+    };
+</script>
 </body>
 </html>

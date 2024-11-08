@@ -1,11 +1,19 @@
 package fit.se.backend.services;
 
+import fit.se.backend.dtos.CreateJobDto;
+import fit.se.backend.dtos.CreateJobSkillDto;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.exceptions.AppException;
+import fit.se.backend.ids.JobSkillId;
 import fit.se.backend.mappers.JobMapper;
 import fit.se.backend.models.Candidate;
+import fit.se.backend.models.Job;
+import fit.se.backend.models.JobSkill;
 import fit.se.backend.repositories.CandidateRepository;
+import fit.se.backend.repositories.CompanyRepository;
 import fit.se.backend.repositories.JobRepository;
+import fit.se.backend.repositories.JobSkillRepository;
+import fit.se.backend.repositories.SkillRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @description
@@ -23,13 +33,25 @@ import java.util.Optional;
 @Service
 public class JobService {
    private final JobRepository jobRepository;
-   private final JobMapper jobMapper;
    private final CandidateRepository candidateRepository;
+   private final CompanyRepository companyRepository;
+   private final SkillRepository skillRepository;
+   private final JobSkillRepository jobSkillRepository;
+   private final JobMapper jobMapper;
 
-   public JobService(JobRepository jobRepository, JobMapper jobMapper, CandidateRepository candidateRepository) {
+   public JobService(
+         JobRepository jobRepository,
+         JobMapper jobMapper,
+         CandidateRepository candidateRepository,
+         CompanyRepository companyRepository,
+         SkillRepository skillRepository, JobSkillRepository jobSkillRepository
+   ) {
       this.jobRepository = jobRepository;
       this.jobMapper = jobMapper;
       this.candidateRepository = candidateRepository;
+      this.companyRepository = companyRepository;
+      this.skillRepository = skillRepository;
+      this.jobSkillRepository = jobSkillRepository;
    }
 
    public Page<JobDto> findAllWithPagination(int pageNo, int pageSize, String sortBy, String sortDir) {
@@ -75,5 +97,54 @@ public class JobService {
                    .stream()
                    .map(jobMapper::toDto)
                    .toList();
+   }
+
+   public JobDto save(CreateJobDto jobDto) {
+      Job job = new Job();
+      job.setJobName(jobDto.jobName());
+      job.setJobDesc(jobDto.jobDesc());
+      companyRepository
+            .findById(jobDto.company())
+            .ifPresentOrElse(
+                  job::setCompany,
+                  () -> {
+                     throw new AppException(404, "Company not found");
+                  }
+            );
+      List<CreateJobSkillDto> createJobSkillDtos = jobDto.jobSkills();
+      Set<JobSkill> listJobSkill =
+            createJobSkillDtos.stream()
+                  .map(cJobSkill -> {
+                     JobSkill jobSkill = getJobSkill(cJobSkill, job);
+                     skillRepository
+                           .findById(cJobSkill.getSkillId())
+                           .ifPresentOrElse(
+                                 jobSkill::setSkill,
+                                 () -> {
+                                    throw new AppException(404, "Skill not found");
+                                 }
+                           );
+                     return jobSkill;
+                  })
+                  .collect(Collectors.toSet());
+      job.setJobSkills(listJobSkill);
+
+      jobRepository.save(job);
+      jobSkillRepository.saveAll(listJobSkill);
+      return jobMapper.toDto(job);
+   }
+
+   private static JobSkill getJobSkill(CreateJobSkillDto cJobSkill, Job job) {
+      JobSkill jobSkill = new JobSkill();
+
+      JobSkillId jobSkillId = new JobSkillId(); // JobSkillId is a composite key, so we need to create an instance of it
+      jobSkillId.setJobId(job.getId());
+      jobSkillId.setSkillId(cJobSkill.getSkillId());
+      jobSkill.setId(jobSkillId);
+
+      jobSkill.setJob(job); // In turn, we need to set the job to the jobSkill
+      jobSkill.setSkillLevel(cJobSkill.getSkillLevel());
+      jobSkill.setMoreInfos(cJobSkill.getMoreInfos());
+      return jobSkill;
    }
 }

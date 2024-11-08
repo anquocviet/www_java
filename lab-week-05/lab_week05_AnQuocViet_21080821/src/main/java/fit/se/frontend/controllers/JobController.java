@@ -1,14 +1,22 @@
 package fit.se.frontend.controllers;
 
 import fit.se.backend.dtos.CandidateDto;
+import fit.se.backend.dtos.CreateJobDto;
+import fit.se.backend.dtos.CreateJobSkillDto;
 import fit.se.backend.dtos.JobDto;
+import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.services.CandidateService;
+import fit.se.backend.services.CompanyService;
 import fit.se.backend.services.JobService;
+import fit.se.backend.services.SkillService;
 import fit.se.backend.utils.JobManager;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,12 +34,21 @@ import java.util.stream.IntStream;
 public class JobController {
    private final JobService jobService;
    private final CandidateService candidateService;
+   private final CompanyService companyService;
    private final JobManager jobManager;
+   private final SkillService skillService;
 
-   public JobController(JobService jobService, CandidateService candidateService, JobManager jobManager) {
+   public JobController(
+         JobService jobService,
+         CandidateService candidateService,
+         CompanyService companyService,
+         JobManager jobManager, SkillService skillService
+   ) {
       this.jobService = jobService;
       this.candidateService = candidateService;
+      this.companyService = companyService;
       this.jobManager = jobManager;
+      this.skillService = skillService;
    }
 
    @GetMapping(value = {"", "/"})
@@ -91,8 +108,23 @@ public class JobController {
    }
 
    @GetMapping("/add")
-   public ModelAndView add() {
+   public ModelAndView add(Long company) {
       ModelAndView mav = new ModelAndView("jobs/add");
+      mav.addObject("company", companyService.findById(company));
+      mav.addObject("skills", skillService.findAll());
+      mav.addObject("skillLevels", SkillLevel.values());
+      mav.addObject("job",
+            new CreateJobDto("", "", company,
+                  List.of(new CreateJobSkillDto(1L, SkillLevel.MASTER, ""))
+            )
+      );
       return mav;
    }
+
+   @PostMapping("/add")
+   public ModelAndView add(@Valid @ModelAttribute CreateJobDto job) {
+      jobService.save(job);
+      return new ModelAndView("redirect:/jobs");
+   }
+
 }

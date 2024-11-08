@@ -1,8 +1,6 @@
 package fit.se.backend.configs;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 /**
  * @description
