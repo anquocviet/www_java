@@ -20,8 +20,8 @@ public interface JobRepository extends CrudRepository<Job, Long>, PagingAndSorti
 
    @Query("""
          select j from Job j inner join j.jobSkills jobSkills
-         where jobSkills.skillLevel = ?1 and jobSkills.skill.skillName = ?2""")
-   List<Job> findJobsBySkillLevelAndSkillName(SkillLevel skillLevel, String skillName);
+         where jobSkills.skillLevel = ?1 and jobSkills.skill.id = ?2""")
+   List<Job> findJobsBySkillLevelAndSkill(SkillLevel skillLevel, Long skillId);
 
    List<Job> findJobsByCompanyId(Long companyId);
 }

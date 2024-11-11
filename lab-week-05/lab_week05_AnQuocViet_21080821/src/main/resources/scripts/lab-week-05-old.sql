@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `street` varchar(150) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
-  `country` smallint(6) DEFAULT NULL CHECK (`country` between 0 and 201),
+  `country` smallint(6) DEFAULT NULL CHECK (`country` between 0 and 272),
   `number` varchar(20) DEFAULT NULL,
   `zipcode` varchar(7) DEFAULT NULL,
   PRIMARY KEY (`id`)

@@ -67,10 +67,12 @@
                 <td th:text="${job.jobDesc()}"></td>
                 <td>
                     <ul>
-                        <li th:each="jobSkill : ${job.jobSkills()}">
-                            <span th:text="${jobSkill.skill().skillName()}"></span>:
-                            <span th:text="${jobSkill.skillLevel()}"></span> -
-                            <span th:text="${jobSkill.skill().type()}"></span>
+                        <li th:each="jobSkill : ${job.jobSkills()}" class="mb-3">
+                            <span th:text="${jobSkill.skill().skillName()}"></span>
+                            <br>
+                            Level: <span th:text="${jobSkill.skillLevel().name().toLowerCase()}"></span>
+                            <br>
+                            Type: <span th:text="${jobSkill.skill().type().name().toLowerCase()}"></span>
                         </li>
                     </ul>
                 </td>

@@ -21,7 +21,7 @@ public interface CandidateRepository extends CrudRepository<Candidate, Long>, Pa
 
    @Query("""
          select c from Candidate c inner join c.candidateSkills candidateSkills
-         where candidateSkills.skillLevel = ?1 and candidateSkills.skill.skillName = ?2
+         where candidateSkills.skillLevel = ?1 and candidateSkills.skill.id = ?2
          """)
-   List<Candidate> findCandidatesBySkillLevelAndSkillName(SkillLevel skillLevel, String skillName);
+   List<Candidate> findCandidatesBySkillLevelAndSkill(SkillLevel skillLevel, Long skillId);
 }

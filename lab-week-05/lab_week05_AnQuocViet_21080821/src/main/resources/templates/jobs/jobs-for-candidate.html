@@ -41,6 +41,18 @@
         <span th:text="${candidate.address().city()}"></span>,
         <span th:text="${candidate.address().country().name}"></span>
     </p>
+    <p>
+        <b>Skills: </b>
+    </p>
+    <ul>
+        <li th:each="cSkill : ${candidateSkills}" class="mb-3">
+            <span th:text="${cSkill.skill.skillName()}"></span>
+            <br>
+            Level: <span th:text="${cSkill.skillLevel().name().toLowerCase()}"></span>
+            <br>
+            Type: <span th:text="${cSkill.skill().type().name().toLowerCase()}"></span>
+        </li>
+    </ul>
     <h1>
         List Jobs for Candidate
     </h1>

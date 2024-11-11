@@ -82,6 +82,7 @@ public class JobController {
       ModelAndView mav = new ModelAndView("jobs/jobs-for-candidate");
       List<JobDto> listJob = jobService.findJobsForCandidate(id);
       mav.addObject("candidate", candidateService.findById(id));
+      mav.addObject("candidateSkills", candidateService.findSkillsOfCandidate(id));
       mav.addObject("listJob", listJob);
       return mav;
    }

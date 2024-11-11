@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @description
@@ -73,23 +74,42 @@ public class JobService {
                    .map(jobMapper::toDto);
    }
 
+   /**
+    * Finds jobs that match the skills of a given candidate.
+    * Only jobs that have at least half of the candidate's skills are returned.
+    *
+    * @param candidateId the ID of the candidate
+    * @return a list of JobDto objects that match the candidate's skills
+    * @throws AppException if the candidate is not found
+    */
    public List<JobDto> findJobsForCandidate(Long candidateId) {
       Optional<Candidate> candidate = candidateRepository.findById(candidateId);
       if (candidate.isEmpty()) {
          throw new AppException(404, "Candidate not found");
       }
-      return candidate.get()
-                   .getCandidateSkills().stream()
-                   .map(
-                         candidateSkill ->
-                               jobRepository.findJobsBySkillLevelAndSkillName(
-                                     candidateSkill.getSkillLevel(), candidateSkill.getSkill().getSkillName()
-                               )
-                   )
-                   .flatMap(List::stream)
+      // Find jobs that match the candidate's skills
+      Stream<Job> jobStream =
+            candidate.get()
+                  .getCandidateSkills().stream()
+                  .map(
+                        candidateSkill -> jobRepository.findJobsBySkillLevelAndSkill(
+                              candidateSkill.getSkillLevel(), candidateSkill.getSkill().getId()
+                        )
+                  )
+                  .flatMap(List::stream);
+      // Filter jobs that have at least half of the candidate's skills
+      return jobStream.filter(job -> {
+               long matchingSkills = job.getJobSkills().stream().filter(
+                     jobSkill -> candidate.get().getCandidateSkills().stream().anyMatch(
+                           candidateSkill ->
+                                 candidateSkill.getSkill().getId().equals(jobSkill.getSkill().getId()) &&
+                                       candidateSkill.getSkillLevel().equals(jobSkill.getSkillLevel())
+                     )
+               ).count();
+               return matchingSkills >= job.getJobSkills().size() / 2.0;
+            })
                    .map(jobMapper::toDto)
                    .toList();
-
    }
 
    public List<JobDto> findJobsOfCompany(Long companyId) {
