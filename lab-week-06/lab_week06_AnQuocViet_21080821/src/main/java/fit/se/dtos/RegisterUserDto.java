@@ -1,5 +1,6 @@
-package fit.se.entities;
+package fit.se.dtos;
 
+import fit.se.entities.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

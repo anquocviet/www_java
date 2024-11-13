@@ -1,8 +1,8 @@
 package fit.se.controllers;
 
 import fit.se.dtos.LoginDto;
+import fit.se.dtos.RegisterUserDto;
 import fit.se.dtos.UserDto;
-import fit.se.entities.RegisterUserDto;
 import fit.se.services.AuthService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class AuthController {
 
    @PostMapping("/login")
    public ModelAndView login(@Valid LoginDto loginDto, HttpSession session) {
-      ModelAndView modelAndView = new ModelAndView("posts/list-post");
+      ModelAndView modelAndView = new ModelAndView("redirect:/posts");
       UserDto userDto = authService.login(loginDto);
       session.setAttribute("user", userDto);
       modelAndView.addObject("user", userDto);
@@ -48,7 +48,7 @@ public class AuthController {
 
    @PostMapping("/register")
    public ModelAndView register(@Valid RegisterUserDto registerUserDto) {
-      ModelAndView modelAndView = new ModelAndView("auth/login");
+      ModelAndView modelAndView = new ModelAndView("redirect:/auth/login");
       boolean registerStatus = authService.register(registerUserDto);
       modelAndView.addObject("registerStatus", registerStatus);
       return modelAndView;

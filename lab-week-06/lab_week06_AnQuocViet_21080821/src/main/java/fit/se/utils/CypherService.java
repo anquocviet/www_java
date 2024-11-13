@@ -1,7 +1,7 @@
 package fit.se.utils;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @description
@@ -9,17 +9,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date: 11/11/24
  */
 public class CypherService {
-   private final PasswordEncoder passwordEncoder;
-
-   public CypherService() {
-      this.passwordEncoder = new BCryptPasswordEncoder();
+   public static String encryptPassword(String password) {
+      try {
+         MessageDigest digest = MessageDigest.getInstance("SHA-256");
+         byte[] hash = digest.digest(password.getBytes());
+         StringBuilder hexString = new StringBuilder(64);
+         for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+         }
+         // Truncate to 32 characters if necessary
+         return hexString.substring(0, 32);
+      } catch (NoSuchAlgorithmException e) {
+         throw new RuntimeException("Error encrypting password", e);
+      }
    }
 
-   public String encryptPassword(String rawPassword) {
-      return passwordEncoder.encode(rawPassword);
-   }
-
-   public boolean verifyPassword(String rawPassword, String encodedPassword) {
-      return passwordEncoder.matches(rawPassword, encodedPassword);
+   public static boolean verifyPassword(String rawPassword, String encodedPassword) {
+      String encryptedPassword = encryptPassword(rawPassword);
+      return encryptedPassword.equals(encodedPassword);
    }
 }

@@ -18,6 +18,8 @@ public record PostDto(
       @NotNull Instant createdAt,
       Instant updatedAt,
       Instant publishedAt,
-      String content
+      String content,
+      String authorName,
+      Long parentId
 ) implements Serializable {
 }
