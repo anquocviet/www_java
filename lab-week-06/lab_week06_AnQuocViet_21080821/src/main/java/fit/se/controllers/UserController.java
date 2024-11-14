@@ -1,7 +1,10 @@
 package fit.se.controllers;
 
 import fit.se.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,10 +22,10 @@ public class UserController {
       this.userService = userService;
    }
 
-   @RequestMapping(value = {"", "/"})
-   public ModelAndView findAll() {
-      ModelAndView modelAndView = new ModelAndView("users");
-      modelAndView.addObject("users", userService.findAll());
-      return modelAndView;
+   @GetMapping("/{id}")
+   public ModelAndView findById(@PathVariable Long id, HttpSession session) {
+      ModelAndView mav = new ModelAndView("users/user-detail");
+      mav.addObject("user", userService.findById(id));
+      return mav;
    }
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 /**
  * @description
  * @author: vie
@@ -38,6 +40,13 @@ public class PostController {
       mav.addObject("post", postService.findById(id));
       mav.addObject("comments", postCommentService.findByPostId(id));
       mav.addObject("comment", new CreatePostCommentDto("", ""));
+      return mav;
+   }
+
+   @GetMapping(value = {"/create", "/parent/{parentId}/create"})
+   public ModelAndView create(@PathVariable Optional<Long> parentId) {
+      ModelAndView mav = new ModelAndView("posts/create-post");
+      mav.addObject("parentId", parentId);
       return mav;
    }
 }

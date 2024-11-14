@@ -1,7 +1,7 @@
 package fit.se.mappers;
 
-import fit.se.dtos.UserDto;
 import fit.se.dtos.RegisterUserDto;
+import fit.se.dtos.UserDto;
 import fit.se.entities.User;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -13,6 +13,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface UserMapper {
    User toEntity(UserDto userDto);
 
+   @Mapping(target = "fullName",
+         expression = "java(user.getFirstName() + ' ' + user.getMiddleName() + ' ' + user.getLastName())")
    UserDto toDto(User user);
 
    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

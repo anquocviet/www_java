@@ -11,9 +11,7 @@ import java.time.Instant;
  */
 public record UserDto(
       Long id,
-      @Size(max = 50) String firstName,
-      @Size(max = 50) String middleName,
-      @Size(max = 50) String lastName,
+      String fullName,
       @Size(max = 15) String mobile,
       @Size(max = 50) String email,
       @NotNull @Size(max = 32) String passwordHash,

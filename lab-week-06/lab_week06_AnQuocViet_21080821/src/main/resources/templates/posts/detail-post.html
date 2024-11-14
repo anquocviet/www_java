@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${post.title}"></title>
+    <title th:text="${post.metaTitle}"></title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h1 th:text="${post.title}">Post Title</h1>
-    <p class="text-muted" th:text="${post.authorName}">Author Name</p>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 th:text="${post.title}">Post Title</h1>
+        <div th:if="${!#ctx.session.isEmpty() &&  #ctx.session.user.id == post.id}" >
+            <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="btn btn-warning">Edit</a>
+            <a th:href="@{/posts/parent/{parentId}/create(parentId=${post.id})}" class="btn btn-primary">Create child
+                post</a>
+        </div>
+    </div>
+    <p class="text-muted">
+        <a th:href="@{'/users/' + ${post.authorId}}" th:text="${post.authorName}">Author Name</a>
+    </p>
     <b>Time published:</b>
     <p th:text="${#dates.format(post.createdAt, 'HH:mm dd/MM/yyyy')}"></p>
     <hr>
@@ -34,9 +43,12 @@
     <!-- Comments Section -->
     <div class="mt-5">
         <h2>Comments</h2>
-        <div th:each="comment : ${comments}" class="mb-3">
-            <p th:text="${comment.content}">Comment Content</p>
-            <p class="text-muted" th:text="${#dates.format(comment.createdAt, 'HH:mm dd/MM/yyyy')}"></p>
+        <div th:each="cmt : ${comments}" class="mb-3">
+            <p>
+                <b th:text="${cmt.title}"></b>
+            </p>
+            <p th:text="${cmt.content}">Comment Content</p>
+            <p class="text-muted" th:text="${#dates.format(cmt.createdAt, 'HH:mm dd/MM/yyyy')}"></p>
             <hr>
         </div>
     </div>

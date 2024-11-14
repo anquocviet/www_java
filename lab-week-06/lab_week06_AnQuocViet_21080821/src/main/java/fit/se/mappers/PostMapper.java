@@ -15,6 +15,7 @@ public interface PostMapper {
    @Mapping(target = "authorName",
          expression = "java(post.getAuthor().getFirstName() + ' ' + post.getAuthor().getMiddleName() + ' ' + post.getAuthor().getLastName())")
    @Mapping(target = "parentId", source = "parent.id")
+   @Mapping(target = "authorId", source = "author.id")
    PostDto toDto(Post post);
 
    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

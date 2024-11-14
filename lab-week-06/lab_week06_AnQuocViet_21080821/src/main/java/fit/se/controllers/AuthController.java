@@ -42,7 +42,6 @@ public class AuthController {
       ModelAndView modelAndView = new ModelAndView("redirect:/posts");
       UserDto userDto = authService.login(loginDto);
       session.setAttribute("user", userDto);
-      modelAndView.addObject("user", userDto);
       return modelAndView;
    }
 
@@ -51,6 +50,13 @@ public class AuthController {
       ModelAndView modelAndView = new ModelAndView("redirect:/auth/login");
       boolean registerStatus = authService.register(registerUserDto);
       modelAndView.addObject("registerStatus", registerStatus);
+      return modelAndView;
+   }
+
+   @GetMapping("/logout")
+   public ModelAndView logout(HttpSession session) {
+      ModelAndView modelAndView = new ModelAndView("redirect:/posts/");
+      session.removeAttribute("user");
       return modelAndView;
    }
 }

@@ -19,6 +19,7 @@ public record PostDto(
       Instant updatedAt,
       Instant publishedAt,
       String content,
+      Long authorId,
       String authorName,
       Long parentId
 ) implements Serializable {

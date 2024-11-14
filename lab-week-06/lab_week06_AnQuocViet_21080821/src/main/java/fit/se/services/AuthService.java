@@ -41,7 +41,6 @@ public class AuthService {
       }
       User entity = userMapper.toEntity(registerUserDto);
       String passwordHash = CypherService.encryptPassword(entity.getPasswordHash());
-      logger.info("Password hash: " + passwordHash + " size: " + passwordHash.length());
       entity.setPasswordHash(passwordHash);
       userRepository.save(entity);
       return true;
