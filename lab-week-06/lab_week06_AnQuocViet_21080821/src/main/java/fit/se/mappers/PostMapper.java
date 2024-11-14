@@ -1,5 +1,6 @@
 package fit.se.mappers;
 
+import fit.se.dtos.CreatePostDto;
 import fit.se.dtos.PostDto;
 import fit.se.entities.Post;
 import org.mapstruct.BeanMapping;
@@ -11,6 +12,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
    Post toEntity(PostDto postDto);
+
+   @Mapping(source = "published", target = "published", defaultValue = "false")
+   Post toEntity(CreatePostDto postDto);
 
    @Mapping(target = "authorName",
          expression = "java(post.getAuthor().getFirstName() + ' ' + post.getAuthor().getMiddleName() + ' ' + post.getAuthor().getLastName())")

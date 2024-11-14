@@ -25,12 +25,26 @@
         <strong>Profile:</strong> <span th:text="${user.profile}">User profile</span>
     </p>
 
-    <div th:if="${#ctx.session.user.id == user.id}">
+    <div class="mb-1" th:if="${#ctx.session.user.id == user.id}">
         <a th:href="@{'/users/' + ${user.id} + '/edit'}" class="btn btn-primary">Edit</a>
         <a th:href="@{'/users/' + ${user.id} + '/delete'}" class="btn btn-danger">Delete</a>
     </div>
     <div class="mb-5">
         <a th:href="@{'/users'}" class="btn btn-secondary">Back</a>
+    </div>
+
+    <div class="list-group mb-5">
+        <div th:each="post : ${posts}" class="list-group-item">
+            <h5 th:text="${post.title}">Post Title</h5>
+            <p th:text="${post.summary}">Post Content</p>
+            <p th:text="${post.authorName}">Author</p>
+            <p th:text="${#dates.format(post.publishedAt, 'HH:mm dd/MM/yyyy')}"></p>
+            <a th:href="@{'/posts/' + ${post.id}}" class="btn btn-primary">View</a>
+            <a th:if="${post.authorId == #ctx.session.user.id && !post.published}"
+               th:href="@{'/posts/' + ${post.id} + '/publish'}" class="btn btn-success">
+                Publish
+            </a>
+        </div>
     </div>
 </div>
 </body>

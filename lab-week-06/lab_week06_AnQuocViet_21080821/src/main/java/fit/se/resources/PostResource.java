@@ -1,7 +1,9 @@
 package fit.se.resources;
 
+import fit.se.dtos.CreatePostDto;
 import fit.se.dtos.PostDto;
 import fit.se.services.PostService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @description
@@ -28,8 +30,11 @@ public class PostResource {
    }
 
    @GetMapping(value = {"", "/"})
-   public ResponseEntity<List<PostDto>> findAll() {
-      return ResponseEntity.ok(postService.findAll());
+   public ResponseEntity<Page<PostDto>> findAll(Optional<Integer> page, Optional<Integer> size) {
+      int currentPage = page.orElse(1);
+      int pageSize = size.orElse(10);
+      Page<PostDto> postPage = postService.findAll(currentPage - 1, pageSize, "publishedAt", "asc");
+      return ResponseEntity.ok(postPage);
    }
 
    @GetMapping("/{id}")
@@ -38,7 +43,7 @@ public class PostResource {
    }
 
    @PostMapping("/add")
-   public ResponseEntity<PostDto> save(PostDto postDto) {
+   public ResponseEntity<PostDto> save(CreatePostDto postDto) {
       return ResponseEntity.ok(postService.save(postDto));
    }
 

@@ -63,7 +63,7 @@ public class PostCommentService {
    }
 
    public List<PostCommentDto> findByPostId(Long postId) {
-      return postCommentRepository.findByPostId(postId)
+      return postCommentRepository.findByPostIdOrderByPublishedAtDesc(postId)
                    .stream()
                    .map(postCommentMapper::toDto)
                    .toList();

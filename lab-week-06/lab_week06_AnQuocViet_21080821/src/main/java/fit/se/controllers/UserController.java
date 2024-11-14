@@ -1,5 +1,7 @@
 package fit.se.controllers;
 
+import fit.se.dtos.UserDto;
+import fit.se.services.PostService;
 import fit.se.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -17,15 +19,25 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/users")
 public class UserController {
    private final UserService userService;
+   private final PostService postService;
 
-   public UserController(UserService userService) {
+   public UserController(UserService userService, PostService postService) {
       this.userService = userService;
+      this.postService = postService;
    }
 
    @GetMapping("/{id}")
    public ModelAndView findById(@PathVariable Long id, HttpSession session) {
       ModelAndView mav = new ModelAndView("users/user-detail");
       mav.addObject("user", userService.findById(id));
+      if (session.getAttribute("user") != null) {
+         UserDto user = (UserDto) session.getAttribute("user");
+         if (user.id().equals(id)) {
+            mav.addObject("posts", postService.findPostsByUserId(id, true));
+         } else {
+            mav.addObject("posts", postService.findPostsByUserId(id, false));
+         }
+      }
       return mav;
    }
 }

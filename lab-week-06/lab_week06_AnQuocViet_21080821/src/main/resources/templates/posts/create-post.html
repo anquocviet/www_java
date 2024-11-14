@@ -9,7 +9,8 @@
 <body>
 <div class="container">
     <h1>Create post</h1>
-    <form action="/posts" method="post">
+    <form action="/posts/create" method="post">
+        <input type="hidden" name="authorId" th:value="${#ctx.session.user.id}">
         <div th:if="${parentId.isPresent()}" class="mb-3">
             <a th:href="@{/posts/{id}(id=${parentId.get()})}">Parent post</a>
         </div>
@@ -22,8 +23,16 @@
             <input type="text" class="form-control" id="title" name="title">
         </div>
         <div class="mb-3">
+            <label for="summary" class="form-label">Summary</label>
+            <textarea class="form-control" id="summary" name="summary"></textarea>
+        </div>
+        <div class="mb-3">
             <label for="content" class="form-label">Content</label>
             <textarea class="form-control" id="content" name="content"></textarea>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="published" name="published" checked>
+            <label class="form-check-label" for="published">Publish</label>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>

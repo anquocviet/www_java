@@ -59,9 +59,20 @@
             <h5 th:text="${post.title}">Post Title</h5>
             <p th:text="${post.summary}">Post Content</p>
             <p th:text="${post.authorName}">Author</p>
-            <p th:text="${#dates.format(post.createdAt, 'HH:mm dd/MM/yyyy')}"></p>
+            <p th:text="${#dates.format(post.publishedAt, 'HH:mm dd/MM/yyyy')}"></p>
             <a th:href="@{'/posts/' + ${post.id}}" class="btn btn-primary">View</a>
         </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4" th:if="${posts.totalPages > 0}">
+        <nav>
+            <ul class="pagination flex-wrap">
+                <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                    <a class="page-link" th:href="@{/posts(size=${posts.size}, page=${pageNumber})}"
+                       th:text="${pageNumber}"
+                       th:classappend="${pageNumber == posts.number + 1} ? 'active' : ''"></a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>
