@@ -1,5 +1,6 @@
 package fit.se.backend.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,7 +41,10 @@ public class Candidate {
    @Column(name = "phone", nullable = false, length = 15)
    private String phone;
 
-   @OneToOne(fetch = FetchType.LAZY, optional = false)
+   @Column(nullable = false)
+   private String password;
+
+   @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
    @JoinColumn(name = "address", nullable = false)
    private Address address;
 

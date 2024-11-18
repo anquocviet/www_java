@@ -1,5 +1,6 @@
 package fit.se.backend.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,6 +33,9 @@ public class Company {
    @Column(name = "email", nullable = false)
    private String email;
 
+   @Column(nullable = false)
+   private String password;
+
    @Column(name = "comp_name", nullable = false)
    private String compName;
 
@@ -41,7 +45,7 @@ public class Company {
    @Column(name = "web_url")
    private String webUrl;
 
-   @OneToOne(fetch = FetchType.LAZY, optional = false)
+   @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
    @JoinColumn(name = "address", nullable = false)
    private Address address;
 

@@ -1,6 +1,7 @@
 package fit.se.backend.mappers;
 
 import fit.se.backend.dtos.CompanyDto;
+import fit.se.backend.dtos.CreateCompanyDTO;
 import fit.se.backend.models.Company;
 import org.mapstruct.Mapper;
 
@@ -14,4 +15,6 @@ public interface CompanyMapper {
    public CompanyDto toDto(Company company);
 
    public Company toEntity(CompanyDto company);
+
+   public Company toEntity(CreateCompanyDTO companyDTO);
 }

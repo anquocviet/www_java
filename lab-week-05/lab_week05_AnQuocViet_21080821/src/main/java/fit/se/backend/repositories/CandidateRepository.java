@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CandidateRepository extends CrudRepository<Candidate, Long>, PagingAndSortingRepository<Candidate, Long> {
    @Query("""
@@ -24,4 +25,10 @@ public interface CandidateRepository extends CrudRepository<Candidate, Long>, Pa
          where candidateSkills.skillLevel = ?1 and candidateSkills.skill.id = ?2
          """)
    List<Candidate> findCandidatesBySkillLevelAndSkill(SkillLevel skillLevel, Long skillId);
+
+   Optional<Candidate> findCandidateByEmail(String email);
+
+   boolean existsCandidateByEmail(String email);
+
+   boolean existsCandidateByPhone(String phone);
 }
