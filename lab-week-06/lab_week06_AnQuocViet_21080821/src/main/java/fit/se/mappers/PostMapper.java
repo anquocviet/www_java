@@ -13,13 +13,12 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface PostMapper {
    Post toEntity(PostDto postDto);
 
-   @Mapping(source = "published", target = "published", defaultValue = "false")
    Post toEntity(CreatePostDto postDto);
 
    @Mapping(target = "authorName",
          expression = "java(post.getAuthor().getFirstName() + ' ' + post.getAuthor().getMiddleName() + ' ' + post.getAuthor().getLastName())")
-   @Mapping(target = "parentId", source = "parent.id")
-   @Mapping(target = "authorId", source = "author.id")
+   @Mapping(target = "parentId", expression = "java(post.getParent() != null ? post.getParent().getId() : null)")
+   @Mapping(target = "authorId", expression = "java(post.getAuthor().getId())")
    PostDto toDto(Post post);
 
    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

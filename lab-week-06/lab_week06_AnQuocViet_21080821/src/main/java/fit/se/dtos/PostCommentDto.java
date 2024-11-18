@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Set;
 
 /**
  * DTO for {@link fit.se.entities.PostComment}
@@ -15,6 +16,7 @@ public record PostCommentDto(
       @NotNull Boolean published,
       @NotNull Instant createdAt,
       Instant publishedAt,
-      String content
+      String content,
+      Set<PostCommentDto> postComments
 ) implements Serializable {
 }

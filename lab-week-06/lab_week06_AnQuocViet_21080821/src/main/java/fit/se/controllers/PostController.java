@@ -74,6 +74,16 @@ public class PostController {
       return mav;
    }
 
+   @GetMapping("/{id}/edit")
+   public ModelAndView edit(@PathVariable Long id) {
+      ModelAndView mav = new ModelAndView("posts/edit-post");
+      PostDto post = postService.findById(id);
+      mav.addObject("post", post);
+      return mav;
+   }
+
+
+
    @GetMapping("/{id}/publish")
    public ModelAndView publish(@PathVariable("id") Long id) {
       ModelAndView mav = new ModelAndView("redirect:/posts");

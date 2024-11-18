@@ -20,12 +20,7 @@ public interface UserMapper {
    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
    User partialUpdate(UserDto userDto, @MappingTarget User user);
 
-   @Mapping(target = "passwordHash", source = "password")
    @Mapping(target = "registeredAt", expression = "java(java.time.Instant.now())")
+   @Mapping(target = "passwordHash", source = "password")
    User toEntity(RegisterUserDto registerUserDto);
-
-   RegisterUserDto toRegisterDto(User user);
-
-   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-   User partialUpdate(RegisterUserDto registerUserDto, @MappingTarget User user);
 }

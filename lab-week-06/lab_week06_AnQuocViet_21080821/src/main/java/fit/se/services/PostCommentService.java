@@ -58,14 +58,14 @@ public class PostCommentService {
 
    public List<PostCommentDto> findAll() {
       return StreamSupport.stream(postCommentRepository.findAll().spliterator(), false)
-                   .map(postCommentMapper::toDto)
-                   .toList();
+            .map(postCommentMapper::toDto)
+            .toList();
    }
 
    public List<PostCommentDto> findByPostId(Long postId) {
-      return postCommentRepository.findByPostIdOrderByPublishedAtDesc(postId)
-                   .stream()
-                   .map(postCommentMapper::toDto)
-                   .toList();
+      return postCommentRepository.findByParentNullAndPost_IdOrderByPost_PublishedAtDesc(postId)
+            .stream()
+            .map(postCommentMapper::toDto)
+            .toList();
    }
 }

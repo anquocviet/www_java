@@ -10,8 +10,8 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
         <h1 th:text="${post.title}">Post Title</h1>
-        <div th:if="${!#ctx.session.isEmpty() &&  #ctx.session.user.id == post.authorId}" >
-            <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="btn btn-warning">Edit</a>
+        <div th:if="${!#ctx.session.isEmpty() &&  #ctx.session.user.id == post.authorId}">
+            <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-warning">Edit</a>
             <a th:href="@{/posts/parent/{parentId}/create(parentId=${post.id})}" class="btn btn-primary">Create child
                 post</a>
         </div>
@@ -23,6 +23,9 @@
     <p th:text="${#dates.format(post.publishedAt, 'HH:mm dd/MM/yyyy')}"></p>
     <hr>
     <div th:utext="${post.content}">Post Content</div>
+    <br>
+    <a th:if="${post.parentId != null}" th:href="@{/posts/{id}(id=${post.parentId})}" class="btn btn-primary">Previous
+        post</a>
 
     <!-- Add Comment Form -->
     <div class="mt-5">
@@ -44,11 +47,14 @@
     <div class="mt-5">
         <h2>Comments</h2>
         <div th:each="cmt : ${comments}" class="mb-3">
-            <p>
-                <b th:text="${cmt.title}"></b>
-            </p>
+            <p><b th:text="${cmt.title}"></b></p>
             <p th:text="${cmt.content}">Comment Content</p>
             <p class="text-muted" th:text="${#dates.format(cmt.publishedAt, 'HH:mm dd/MM/yyyy')}"></p>
+            <div th:each="childCmt : ${cmt.postComments}" class="ms-5 ps-2 border-start border-3 border-primary">
+                <p><b th:text="${childCmt.title}"></b></p>
+                <p th:text="${childCmt.content}">Comment Content</p>
+                <p class="text-muted" th:text="${#dates.format(childCmt.publishedAt, 'HH:mm dd/MM/yyyy')}"></p>
+            </div>
             <hr>
         </div>
     </div>
