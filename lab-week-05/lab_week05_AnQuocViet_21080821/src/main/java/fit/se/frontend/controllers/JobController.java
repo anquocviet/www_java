@@ -5,13 +5,20 @@ import fit.se.backend.dtos.CreateJobDto;
 import fit.se.backend.dtos.CreateJobSkillDto;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.enums.SkillLevel;
+import fit.se.backend.security.CandidateDetails;
+import fit.se.backend.security.CompanyDetails;
 import fit.se.backend.services.CandidateService;
 import fit.se.backend.services.CompanyService;
 import fit.se.backend.services.JobService;
 import fit.se.backend.services.SkillService;
 import fit.se.backend.utils.JobManager;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,7 +59,7 @@ public class JobController {
    }
 
    @GetMapping(value = {"", "/"})
-   public ModelAndView listJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> search) {
+   public ModelAndView listJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> search, HttpSession session) {
       ModelAndView mav = new ModelAndView("jobs/jobs-paging");
       int currentPage = page.orElse(1);
       int pageSize = size.orElse(10);
@@ -74,6 +81,17 @@ public class JobController {
                                            .toList();
          mav.addObject("pageNumbers", pageNumbers);
       }
+
+//      Check role and config for the view
+       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
+         String emailCom = ((CompanyDetails) auth.getPrincipal()).getUsername();
+         session.setAttribute("company", companyService.findByEmail(emailCom));
+      } else if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CANDIDATE"))) {
+         String emailCan = ((CandidateDetails) auth.getPrincipal()).getUsername();
+         session.setAttribute("candidate", candidateService.findByEmail(emailCan));
+      }
+
       return mav;
    }
 

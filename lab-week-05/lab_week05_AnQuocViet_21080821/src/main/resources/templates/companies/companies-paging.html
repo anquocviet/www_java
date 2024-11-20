@@ -6,38 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        .inline {
-            color: black;
-            float: left;
-            padding: 5px 5px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .inline a.active {
-            background-color: #FBD603;
-            border: 1px solid darkred;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
-    <nav class="navbar">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/jobs">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/candidates">Candidate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/companies">Company</a>
-            </li>
-        </ul>
-    </nav>
+    <div th:replace="fragments/header :: nav">
+    </div>
 
-    <h1 class="text-center my-4">List Company</h1>
     <form class="d-flex mb-4" method="get" action="/companies">
         <input class="form-control me-2"
                type="search"
@@ -49,31 +23,21 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 
-    <div class="row mb-3">
-        <div class="col">
-            <a href="/add-candidate" class="btn btn-primary">Add a new company</a>
-        </div>
-    </div>
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
+            <th>Tên công ty</th>
+            <th>Địa chỉ</th>
+            <th>SĐT</th>
             <th>Email</th>
-            <th>Web</th>
-            <th>Add job</th>
-            <th>About company</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Website</th>
+            <th>Xem thêm</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="company, iStat : ${companyPage}"
             th:classappend="${iStat.odd} ? 'table-active' : ''"
             th:title="${iStat.even} ? 'even' : 'odd'">
-            <td th:text="${company.id()}"></td>
             <td th:text="${company.compName()}"></td>
             <td th:object="${company.address}">
                 <span th:text="*{street}"></span>,
@@ -83,10 +47,7 @@
             <td th:text="${company.phone}"></td>
             <td th:text="${company.email}"></td>
             <td th:text="${company.webUrl}"></td>
-            <td><a th:href="@{/jobs/add(company=${company.id})}" class="btn btn-success btn-sm">Add job</a></td>
-            <td><a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">View more</a></td>
-            <td><a th:href="@{/companies/edit/{id}(id=${company.id})}" class="btn btn-warning btn-sm">Edit</a></td>
-            <td><a th:href="@{/delete/{id}(id=${company.id})}" class="btn btn-danger btn-sm">Delete</a></td>
+            <td><a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">Xem</a></td>
         </tr>
         </tbody>
     </table>

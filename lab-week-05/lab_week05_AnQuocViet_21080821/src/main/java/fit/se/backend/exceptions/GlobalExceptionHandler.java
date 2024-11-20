@@ -3,6 +3,7 @@ package fit.se.backend.exceptions;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -42,7 +43,16 @@ public class GlobalExceptionHandler {
       logger.log(Level.SEVERE, "Resource not found: ", e);
 
       ModelAndView mav = new ModelAndView(ERROR_VIEW);
-      mav.addObject(ERROR_MESSAGE_ATTRIBUTE, "Path not found");
+      mav.addObject(ERROR_MESSAGE_ATTRIBUTE, "Đường dẫn không tồn tại");
+      return mav;
+   }
+
+   @ExceptionHandler(HttpClientErrorException.Forbidden.class)
+   public ModelAndView handle(HttpClientErrorException.Forbidden e) {
+      logger.log(Level.SEVERE, "Forbidden error: ", e);
+
+      ModelAndView mav = new ModelAndView(ERROR_VIEW);
+      mav.addObject(ERROR_MESSAGE_ATTRIBUTE, "Bạn không có quyền truy cập trang này");
       return mav;
    }
 

@@ -8,63 +8,44 @@
 </head>
 <body>
 <div class="container">
-    <nav class="navbar">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/jobs">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/candidates">Candidate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/companies">Company</a>
-            </li>
-        </ul>
-    </nav>
-    <div th:object="${company}">
-        <h1>Company Information</h1>
-        <p>
-            <b>Company name: </b>
-            <span th:text="*{compName()}"></span>
-        </p>
-        <p>
-            <b>Email: </b>
-            <span th:text="*{email()}"></span>
-        </p>
-        <p>
-            <b>Phone: </b>
-            <span th:text="*{phone()}"></span>
-        </p>
-        <p>
-            <b>Address: </b>
-            <span th:text="*{address().street()}"></span>,
-            <span th:text="*{address().city()}"></span>,
-            <span th:text="*{address().country().name}"></span>
-        </p>
-        <p>
-            <b>Web URL: </b>
-            <span th:text="*{webUrl()}"></span>
-        </p>
+    <div th:replace="fragments/header :: nav"></div>
+
+    <div class="card mt-4" th:object="${company}">
+        <div class="card-header">
+            <h2 th:text="*{compName()}">Company Name</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Email:</strong> <span th:text="*{email()}">company@example.com</span></p>
+            <p><strong>Phone:</strong> <span th:text="*{phone()}">123-456-7890</span></p>
+            <p>
+                <strong>Address:</strong>
+                <span th:text="*{address().street()}">123 Main St</span>,
+                <span th:text="*{address().city()}">Springfield</span>,
+                <span th:text="*{address().country().name}">USA</span>
+            </p>
+            <p><strong>Web URL:</strong> <span th:text="*{webUrl()}">http://example.com</span></p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a class="btn btn-secondary" th:href="@{/companies}">Back</a>
+            <a class="btn btn-primary" th:href="@{/companies/edit/{id}(id=*{id()})}">Update Information</a>
+        </div>
     </div>
-    <div>
-        <h1>
-            List Jobs of Company
-        </h1>
+
+    <div class="mt-5">
+        <h1>List Jobs of Company</h1>
         <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Skills</th>
-                <th>View candidate suitable</th>
+                <th>Công việc</th>
+                <th>Mô tả</th>
+                <th>Kỹ năng</th>
+                <th th:if="${session.company}">Gợi ý ứng viên</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="job: ${listJob}">
-                <td th:text="${job.id()}"></td>
                 <td th:text="${job.jobName()}"></td>
-                <td th:text="${job.jobDesc()}"></td>
+                <td style="max-width: 700px;" th:text="${job.jobDesc()}"></td>
                 <td>
                     <ul>
                         <li th:each="jobSkill : ${job.jobSkills()}" class="mb-3">
@@ -76,8 +57,8 @@
                         </li>
                     </ul>
                 </td>
-                <td class="text-center">
-                    <a th:href="@{/jobs/{id}/candidates(id=${job.id})}" class="btn btn-info btn-sm">View</a>
+                <td class="text-center" th:if="${session.company != null && session.company.id == job.companyId}">
+                    <a th:href="@{/jobs/{id}/candidates(id=${job.id})}" class="btn btn-info btn-sm">Xem</a>
                 </td>
             </tr>
             </tbody>

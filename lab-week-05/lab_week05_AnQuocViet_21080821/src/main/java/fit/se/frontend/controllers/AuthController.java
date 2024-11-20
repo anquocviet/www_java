@@ -31,8 +31,8 @@ public class AuthController {
    }
 
    @GetMapping("/login")
-   public String login(Optional<String> error, Model model) {
-      error.ifPresent(e -> model.addAttribute("error", "Đăng nhập thất bại"));
+   public String login(Optional<String>  error, Model model) {
+      error.ifPresent(e -> model.addAttribute("error", true));
       return "auth/login";
    }
 

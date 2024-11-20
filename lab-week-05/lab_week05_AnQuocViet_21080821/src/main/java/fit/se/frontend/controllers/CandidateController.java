@@ -56,12 +56,14 @@ public class CandidateController {
       return mav;
    }
 
-   @GetMapping("/add")
-   public ModelAndView addCandidate() {
-      ModelAndView mav = new ModelAndView("candidates/add");
-      mav.addObject("countries", CountryCode.values());
+   @GetMapping("/{id}")
+   public ModelAndView showCandidate(@PathVariable Long id) {
+      ModelAndView mav = new ModelAndView("candidates/candidate-details");
+      CandidateDto candidate = candidateService.findById(id);
+      mav.addObject("candidate", candidate);
       return mav;
    }
+
 
    @GetMapping("/edit/{id}")
    public ModelAndView editCandidate(@PathVariable Long id) {

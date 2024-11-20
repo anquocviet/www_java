@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * DTO for {@link Candidate}
@@ -27,6 +28,8 @@ public record CandidateDto(
       @NotNull(message = "Phone number is required")
       String phone,
 
-      AddressDto address
+      AddressDto address,
+
+      Set<CandidateSkillDto> skills
 ) implements Serializable {
 }

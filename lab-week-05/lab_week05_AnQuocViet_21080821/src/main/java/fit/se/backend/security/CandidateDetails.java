@@ -22,7 +22,7 @@ public class CandidateDetails implements UserDetails {
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
-      return Collections.singletonList(new SimpleGrantedAuthority("CANDIDATE"));
+      return Collections.singletonList(new SimpleGrantedAuthority("ROLE_CANDIDATE"));
    }
 
    @Override

@@ -3,7 +3,6 @@ package fit.se.backend.configs;
 import fit.se.backend.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,13 +29,19 @@ public class SecurityConfig {
       http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request
-                  .requestMatchers("/jobs").permitAll()
+                  .requestMatchers("/", "/jobs", "/jobs/").permitAll()
                   .requestMatchers("/auth/**").permitAll()
+                  // authorize requests based on the role
+                  .requestMatchers("/candidates/edit/**", "/companies/").hasRole("CANDIDATE")
+                  .requestMatchers("/companies/edit/**", "/candidates/").hasRole("COMPANY")
                   .anyRequest().authenticated()
             )
             .userDetailsService(userService)
-            .formLogin(Customizer.withDefaults());
-
+            .formLogin(form -> form
+                  .loginPage("/auth/login")
+                  .defaultSuccessUrl("/") // redirect to home page after login
+                  .permitAll()
+            );
       return http.build();
    }
 

@@ -7,7 +7,6 @@ import fit.se.backend.exceptions.impl.EmailAlreadyExistsException;
 import fit.se.backend.exceptions.impl.PhoneAlreadyExistsException;
 import fit.se.backend.exceptions.impl.WebURLAlreadyExistsException;
 import fit.se.backend.mappers.CompanyMapper;
-import fit.se.backend.models.Address;
 import fit.se.backend.models.Company;
 import fit.se.backend.repositories.AddressRepository;
 import fit.se.backend.repositories.CompanyRepository;
@@ -74,5 +73,11 @@ public class CompanyService {
       company.setPassword(hashedPassword);
       Company compSave = companyRepository.save(company);
       return companyMapper.toDto(compSave);
+   }
+
+   public CompanyDto findByEmail(String email) {
+      Company company = companyRepository.findCompanyByEmail(email)
+            .orElseThrow(CompanyNotFoundException::new);
+      return companyMapper.toDto(company);
    }
 }

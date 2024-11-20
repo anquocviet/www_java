@@ -140,4 +140,10 @@ public class CandidateService {
             .map(cSkillMapper::toDto)
             .toList();
    }
+
+   public CandidateDto findByEmail(String email) {
+      return candidateRepository.findCandidateByEmail(email)
+            .map(candidateMapper::toDto)
+            .orElseThrow(CandidateNotFound::new);
+   }
 }
