@@ -5,10 +5,12 @@ import fit.se.backend.dtos.CreateJobDto;
 import fit.se.backend.dtos.CreateJobSkillDto;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.enums.SkillLevel;
+import fit.se.backend.exceptions.impl.ForBidenException;
 import fit.se.backend.security.CandidateDetails;
 import fit.se.backend.security.CompanyDetails;
 import fit.se.backend.services.CandidateService;
 import fit.se.backend.services.CompanyService;
+import fit.se.backend.services.JobRecommendationService;
 import fit.se.backend.services.JobService;
 import fit.se.backend.services.SkillService;
 import fit.se.backend.utils.JobManager;
@@ -17,7 +19,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,18 +45,20 @@ public class JobController {
    private final CompanyService companyService;
    private final JobManager jobManager;
    private final SkillService skillService;
+   private final JobRecommendationService jobRecommendationService;
 
    public JobController(
          JobService jobService,
          CandidateService candidateService,
          CompanyService companyService,
-         JobManager jobManager, SkillService skillService
-   ) {
+         JobManager jobManager, SkillService skillService,
+         JobRecommendationService jobRecommendationService) {
       this.jobService = jobService;
       this.candidateService = candidateService;
       this.companyService = companyService;
       this.jobManager = jobManager;
       this.skillService = skillService;
+      this.jobRecommendationService = jobRecommendationService;
    }
 
    @GetMapping(value = {"", "/"})
@@ -77,13 +80,13 @@ public class JobController {
       int totalPages = jobPage.getTotalPages();
       if (totalPages > 0) {
          List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                                           .boxed()
-                                           .toList();
+               .boxed()
+               .toList();
          mav.addObject("pageNumbers", pageNumbers);
       }
 
 //      Check role and config for the view
-       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
          String emailCom = ((CompanyDetails) auth.getPrincipal()).getUsername();
          session.setAttribute("company", companyService.findByEmail(emailCom));
@@ -95,12 +98,17 @@ public class JobController {
       return mav;
    }
 
-   @GetMapping("/candidate/{id}")
-   public ModelAndView listJobsForCandidate(@PathVariable Long id) {
+   @GetMapping("/recommend")
+   public ModelAndView listJobsForCandidate(HttpSession session) {
+      Object candidateObj = session.getAttribute("candidate");
+      if (candidateObj == null) {
+         throw new ForBidenException();
+      }
+      CandidateDto candidate = (CandidateDto) candidateObj;
       ModelAndView mav = new ModelAndView("jobs/jobs-for-candidate");
-      List<JobDto> listJob = jobService.findJobsForCandidate(id);
-      mav.addObject("candidate", candidateService.findById(id));
-      mav.addObject("candidateSkills", candidateService.findSkillsOfCandidate(id));
+      List<JobDto> listJob = jobRecommendationService.recommendJobs(candidate.id());
+      mav.addObject("candidate", candidateService.findById(candidate.id()));
+      mav.addObject("candidateSkills", candidateService.findSkillsOfCandidate(candidate.id()));
       mav.addObject("listJob", listJob);
       return mav;
    }

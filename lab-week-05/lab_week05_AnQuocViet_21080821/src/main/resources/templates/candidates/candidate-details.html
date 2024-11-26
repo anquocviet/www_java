@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/header :: nav"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
     <div class="card mt-4">
         <div class="card-header">
             <h2 th:text="${candidate.fullName}">Candidate Name</h2>

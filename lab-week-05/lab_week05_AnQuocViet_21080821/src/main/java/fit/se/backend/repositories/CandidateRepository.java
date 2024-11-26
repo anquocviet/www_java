@@ -1,5 +1,6 @@
 package fit.se.backend.repositories;
 
+import fit.se.backend.dtos.SkillWithLevelDTO;
 import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.models.Candidate;
 import org.springframework.data.domain.Page;
@@ -31,4 +32,11 @@ public interface CandidateRepository extends CrudRepository<Candidate, Long>, Pa
    boolean existsCandidateByEmail(String email);
 
    boolean existsCandidateByPhone(String phone);
+
+   @Query("""
+         select new fit.se.backend.dtos.SkillWithLevelDTO(cs.skill.id, cs.skillLevel)
+         from CandidateSkill cs
+         where cs.can.id = ?1
+         """)
+   List<SkillWithLevelDTO> findSkillOfUser(Long candidateId);
 }

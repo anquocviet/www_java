@@ -24,6 +24,9 @@
                 <li th:if="${session.candidate}" class="nav-item">
                     <a class="nav-link" href="/companies">Công ty</a>
                 </li>
+                <li th:if="${session.candidate}" class="nav-item">
+                    <a class="nav-link" href="/jobs/recommend">Job dành cho bạn</a>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" th:if="*{name.equalsIgnoreCase('ANONYMOUSUSER')}">
                 <li class="nav-item">

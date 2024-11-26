@@ -2,12 +2,14 @@ package fit.se.backend.repositories;
 
 import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.models.Job;
+import org.hibernate.procedure.internal.ProcedureCallImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface JobRepository extends CrudRepository<Job, Long>, PagingAndSortingRepository<Job, Long> {
@@ -24,4 +26,6 @@ public interface JobRepository extends CrudRepository<Job, Long>, PagingAndSorti
    List<Job> findJobsBySkillLevelAndSkill(SkillLevel skillLevel, Long skillId);
 
    List<Job> findJobsByCompanyId(Long companyId);
+
+   List<Job> findJobsByIdIn(Collection<Long> id);
 }

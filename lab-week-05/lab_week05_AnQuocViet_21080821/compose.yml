@@ -1,0 +1,17 @@
+version: '3.8'
+name: jobs
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: jobs_mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jobs
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

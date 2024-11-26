@@ -63,15 +63,15 @@ public class JobService {
 
    public JobDto findById(Long id) {
       return jobRepository.findById(id)
-                   .map(jobMapper::toDto)
-                   .orElseThrow(() -> new AppException(404, "Job not found"));
+            .map(jobMapper::toDto)
+            .orElseThrow(() -> new AppException(404, "Job not found"));
    }
 
    public Page<JobDto> search(String keyword, int pageNo, int pageSize, String sortBy, String sortDir) {
       Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
       Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
       return jobRepository.searchJobsRelativeByJobNameOrJobDescOrSkillName("%" + keyword + "%", pageable)
-                   .map(jobMapper::toDto);
+            .map(jobMapper::toDto);
    }
 
    /**
@@ -108,15 +108,15 @@ public class JobService {
                ).count();
                return matchingSkills >= job.getJobSkills().size() / 2.0;
             })
-                   .map(jobMapper::toDto)
-                   .toList();
+            .map(jobMapper::toDto)
+            .toList();
    }
 
    public List<JobDto> findJobsOfCompany(Long companyId) {
       return jobRepository.findJobsByCompanyId(companyId)
-                   .stream()
-                   .map(jobMapper::toDto)
-                   .toList();
+            .stream()
+            .map(jobMapper::toDto)
+            .toList();
    }
 
    public JobDto save(CreateJobDto jobDto) {
@@ -166,5 +166,12 @@ public class JobService {
       jobSkill.setSkillLevel(cJobSkill.getSkillLevel());
       jobSkill.setMoreInfos(cJobSkill.getMoreInfos());
       return jobSkill;
+   }
+
+   public List<JobDto> findJobsByIds(List<Long> ids) {
+      return jobRepository.findJobsByIdIn(ids)
+            .stream()
+            .map(jobMapper::toDto)
+            .toList();
    }
 }
