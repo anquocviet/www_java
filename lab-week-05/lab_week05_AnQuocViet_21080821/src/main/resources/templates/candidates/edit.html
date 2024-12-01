@@ -27,30 +27,96 @@
         <input id="email" type="text" class="form-control" th:field="*{email}"/>
     </div>
     <input th:field="*{address.id}" type="hidden"/>
-    <div class="mb-3">
-        <label for="street" class="form-label">Street</label>
-        <input id="street" type="text" class="form-control" th:field="*{address.street}"/>
+    <div class="form-group row">
+        <div class="mb-3 col">
+            <label for="street" class="form-label">Street</label>
+            <input id="street" type="text" class="form-control" th:field="*{address.street}"/>
+        </div>
+        <div class="mb-3 col">
+            <label for="city" class="form-label">City</label>
+            <input id="city" type="text" class="form-control" th:field="*{address.city}"/>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="city" class="form-label">City</label>
-        <input id="city" type="text" class="form-control" th:field="*{address.city}"/>
+    <div class="form-group row">
+        <div class="mb-3 col">
+            <label for="country" class="form-label">Country</label>
+            <select id="country" class="form-select" th:field="*{address.country}">
+                <option th:each="country : ${countries}" th:value="${country}"
+                        th:text="${country.name + country.ordinal}"></option>
+            </select>
+        </div>
+        <div class="mb-3 col">
+            <label for="zipcode" class="form-label">Zip code</label>
+            <input id="zipcode" type="text" class="form-control" th:field="*{address.zipcode}"/>
+        </div>
+        <div class="mb-3 col">
+            <label for="number" class="form-label">Number</label>
+            <input id="number" type="text" class="form-control" th:field="*{address.number}"/>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="country" class="form-label">Country</label>
-        <select id="country" class="form-select" th:field="*{address.country}">
-            <option th:each="country : ${countries}" th:value="${country}" th:text="${country.name + country.ordinal}"></option>
-        </select>
+    <div class="mb-3 skills">
+        <h4 class="mb-3">Skills</h4>
+        <div class="form-group row" th:each="skillCan : *{skills}">
+            <div class="mb-3 col">
+                <label th:for="*{skills[__${skillCanStat.index}__].skill.id}" class="form-label">Skill</label>
+                <select class="form-select" th:name="@{skills + '[' + ${skillCanStat.index} + ']'}"
+                        th:id="*{skills[__${skillCanStat.index}__].skill.id}">
+                    <option th:each="skill : ${skills}" th:value="${skill.id}"
+                            th:text="${skill.skillName}"
+                            th:selected="${skill.id == skillCan.skill.id}">
+                </select>
+            </div>
+            <div class="mb-3 col">
+                <label th:for="*{skills[__${skillCanStat.index}__].skillLevel}" class="form-label">Skill Level</label>
+                <select th:id="*{skills[__${skillCanStat.index}__].skillLevel}" class="form-select"
+                        th:name="@{skills + '[' + ${skillCanStat.index} + '].skillLevel'}">
+                    <option th:each="level : ${skillLevels}" th:value="${level.ordinal()}"
+                            th:text="${level.name}" th:selected="${level.ordinal() == skillCan.skillLevel.ordinal()}">
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3 col">
+                <label th:for="*{skills[__${skillCanStat.index}__].moreInfos}" class="form-label">Thông tin thêm</label>
+                <input th:id="*{skills[__${skillCanStat.index}__].moreInfos}" class="form-control"
+                       th:name="@{skills + '[' + ${skillCanStat.index} + '].experience'}"
+                       th:value="${skillCan.moreInfos}"/>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="zipcode" class="form-label">Zip code</label>
-        <input id="zipcode" type="text" class="form-control" th:field="*{address.zipcode}"/>
-    </div>
-    <div class="mb-3">
-        <label for="number" class="form-label">Number</label>
-        <input id="number" type="text" class="form-control" th:field="*{address.number}"/>
+    <div class="mb-3 d-flex justify-content-center">
+        <button type="button" class="btn btn-primary me-2" onclick="addSkill()">Thêm kỹ năng</button>
+        <button type="button" class="btn btn-danger" onclick="removeSkill()">Xóa kỹ năng</button>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
+    <a th:href="@{/candidates/{id}(id=${candidate.id})}" class="btn btn-secondary ms-2">Hủy</a>
+
+    <script>
+        const skills = document.querySelector('.skills');
+        let skillLength = skills.childElementCount;
+        const skillTemplate = document.querySelector('.skills').lastElementChild;
+
+        function addSkill() {
+            const newSkill = skillTemplate.cloneNode(true);
+            newSkill.querySelectorAll('select').forEach(select => {
+                select.selectedIndex = 0;
+                select.name = select.name.replace(/\d+/, (skillLength - 1) + '');
+            });
+            newSkill.querySelectorAll('input').forEach(input => {
+                input.value = '';
+                input.name = input.name.replace(/\d+/, (skillLength - 1) + '');
+            });
+            skills.appendChild(newSkill);
+            skillLength++;
+        }
+
+        function removeSkill() {
+            if (skillLength <= 2) {
+                return;
+            }
+            skills.removeChild(skills.lastElementChild);
+            skillLength--;
+        }
+    </script>
 </form>
-<a href="/candidates" class="btn btn-secondary m-4">Back</a>
 </body>
 </html>

@@ -1,13 +1,17 @@
 package fit.se.frontend.controllers;
 
+import com.neovisionaries.i18n.CountryCode;
 import fit.se.backend.dtos.CompanyDto;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.services.CompanyService;
 import fit.se.backend.services.JobService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,8 +55,8 @@ public class CompanyController {
       int totalPages = companyPage.getTotalPages();
       if (totalPages > 0) {
          List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                                           .boxed()
-                                           .toList();
+               .boxed()
+               .toList();
          mav.addObject("pageNumbers", pageNumbers);
       }
       return mav;
@@ -66,5 +70,21 @@ public class CompanyController {
       mav.addObject("company", companyDto);
       mav.addObject("listJob", jobsOfCompany);
       return mav;
+   }
+
+   @GetMapping("/edit")
+   public ModelAndView editCompany(HttpSession session) {
+      CompanyDto company = (CompanyDto) session.getAttribute("company");
+      ModelAndView mav = new ModelAndView("companies/edit");
+      mav.addObject("company", company);
+      mav.addObject("countries", CountryCode.values());
+      return mav;
+   }
+
+   @PostMapping("/update")
+   public String updateCompany(@Valid CompanyDto companyDto, HttpSession session) {
+      companyService.update(companyDto);
+      session.setAttribute("company", companyDto);
+      return "redirect:/companies/" + companyDto.id();
    }
 }

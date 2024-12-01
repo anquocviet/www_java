@@ -47,7 +47,9 @@
             <td th:text="${company.phone}"></td>
             <td th:text="${company.email}"></td>
             <td th:text="${company.webUrl}"></td>
-            <td><a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">Xem</a></td>
+            <td class="text-center align-middle">
+                <a th:href="@{/companies/{id}(id=${company.id})}" class="btn btn-info btn-sm">Xem</a>
+            </td>
         </tr>
         </tbody>
     </table>

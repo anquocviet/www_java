@@ -2,7 +2,10 @@ package fit.se.frontend.controllers;
 
 import com.neovisionaries.i18n.CountryCode;
 import fit.se.backend.dtos.CandidateDto;
+import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.services.CandidateService;
+import fit.se.backend.services.SkillService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -25,9 +28,11 @@ import java.util.stream.IntStream;
 @RequestMapping("/candidates")
 public class CandidateController {
    private final CandidateService candidateService;
+   private final SkillService skillService;
 
-   public CandidateController(CandidateService candidateService) {
+   public CandidateController(CandidateService candidateService, SkillService skillService) {
       this.candidateService = candidateService;
+      this.skillService = skillService;
    }
 
    @GetMapping(value = {"", "/"})
@@ -49,8 +54,8 @@ public class CandidateController {
       int totalPages = candidatePage.getTotalPages();
       if (totalPages > 0) {
          List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                                           .boxed()
-                                           .toList();
+               .boxed()
+               .toList();
          mav.addObject("pageNumbers", pageNumbers);
       }
       return mav;
@@ -61,16 +66,19 @@ public class CandidateController {
       ModelAndView mav = new ModelAndView("candidates/candidate-details");
       CandidateDto candidate = candidateService.findById(id);
       mav.addObject("candidate", candidate);
+      mav.addObject("skills", candidate.skills());
       return mav;
    }
 
 
-   @GetMapping("/edit/{id}")
-   public ModelAndView editCandidate(@PathVariable Long id) {
+   @GetMapping("/edit")
+   public ModelAndView editCandidate(HttpSession session) {
+      CandidateDto candidate = (CandidateDto) session.getAttribute("candidate");
       ModelAndView mav = new ModelAndView("candidates/edit");
-      CandidateDto candidate = candidateService.findById(id);
       mav.addObject("candidate", candidate);
       mav.addObject("countries", CountryCode.values());
+      mav.addObject("skills", skillService.findAll());
+      mav.addObject("skillLevels", SkillLevel.values());
       return mav;
    }
 

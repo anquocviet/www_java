@@ -10,7 +10,8 @@
 <nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light mb-4" th:object="${#authentication}">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">MyApp</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,10 +23,13 @@
                     <a class="nav-link" href="/candidates">Ứng viên</a>
                 </li>
                 <li th:if="${session.candidate}" class="nav-item">
-                    <a class="nav-link" href="/companies">Công ty</a>
+                    <a class="nav-link" href="/jobs/recommend">Công việc dành cho bạn</a>
                 </li>
                 <li th:if="${session.candidate}" class="nav-item">
-                    <a class="nav-link" href="/jobs/recommend">Job dành cho bạn</a>
+                    <a class="nav-link" href="/companies">Công ty</a>
+                </li>
+                <li th:if="${session.company}" class="nav-item">
+                    <a class="nav-link" href="/jobs/add">Tạo công việc</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" th:if="*{name.equalsIgnoreCase('ANONYMOUSUSER')}">
@@ -38,10 +42,12 @@
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" th:unless="*{name.equalsIgnoreCase('ANONYMOUSUSER')}">
                 <li th:if="${session.candidate}" class="nav-item">
-                    <a class="nav-link" th:href="@{/candidates/{id}(id=${session.candidate.id})}" th:text="${session.candidate.fullName()}"></a>
+                    <a class="nav-link" th:href="@{/candidates/{id}(id=${session.candidate.id})}"
+                       th:text="${session.candidate.fullName()}"></a>
                 </li>
                 <li th:if="${session.company}" class="nav-item">
-                    <a class="nav-link" th:href="@{/companies/{id}(id=${session.company.id})}" th:text="${session.company.compName()}"></a>
+                    <a class="nav-link" th:href="@{/companies/{id}(id=${session.company.id})}"
+                       th:text="${session.company.compName()}"></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>

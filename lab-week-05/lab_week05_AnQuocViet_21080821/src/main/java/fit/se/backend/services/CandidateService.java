@@ -1,7 +1,6 @@
 package fit.se.backend.services;
 
 import fit.se.backend.dtos.CandidateDto;
-import fit.se.backend.dtos.CandidateSkillDto;
 import fit.se.backend.dtos.CreateCandidateDTO;
 import fit.se.backend.dtos.JobDto;
 import fit.se.backend.exceptions.AppException;
@@ -21,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -132,18 +130,15 @@ public class CandidateService {
       ).map(candidateMapper::toDto).toList();
    }
 
-   public List<CandidateSkillDto> findSkillsOfCandidate(Long id) {
-      return candidateRepository.findById(id)
-            .map(Candidate::getCandidateSkills)
-            .stream()
-            .flatMap(Set::stream)
-            .map(cSkillMapper::toDto)
-            .toList();
-   }
-
    public CandidateDto findByEmail(String email) {
       return candidateRepository.findCandidateByEmail(email)
             .map(candidateMapper::toDto)
             .orElseThrow(CandidateNotFound::new);
+   }
+
+   public List<CandidateDto> findCandidatesByIds(List<Long> candidateIds) {
+      return candidateRepository.findCandidatesByIdIn(candidateIds).stream()
+            .map(candidateMapper::toDto)
+            .toList();
    }
 }

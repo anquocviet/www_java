@@ -75,6 +75,27 @@ public class CompanyService {
       return companyMapper.toDto(compSave);
    }
 
+   public void update(CompanyDto companyDto) {
+      Company companpy = companyRepository.findById(companyDto.id())
+            .orElseThrow(CompanyNotFoundException::new);
+      companyRepository.findCompanyByEmail(companyDto.email())
+            .ifPresent(company -> {
+               if (!company.getId().equals(companyDto.id())) {
+                  throw new EmailAlreadyExistsException();
+               }
+            });
+      companyRepository.findCompanyByPhone(companyDto.phone())
+            .ifPresent(company -> {
+               if (!company.getId().equals(companyDto.id())) {
+                  throw new PhoneAlreadyExistsException();
+               }
+            });
+
+      Company newCompany = companyMapper.toEntity(companyDto);
+      newCompany.setPassword(companpy.getPassword());
+      companyRepository.save(newCompany);
+   }
+
    public CompanyDto findByEmail(String email) {
       Company company = companyRepository.findCompanyByEmail(email)
             .orElseThrow(CompanyNotFoundException::new);

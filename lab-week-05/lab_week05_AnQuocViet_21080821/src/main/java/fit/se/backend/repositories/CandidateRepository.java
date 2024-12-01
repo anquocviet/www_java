@@ -39,4 +39,6 @@ public interface CandidateRepository extends CrudRepository<Candidate, Long>, Pa
          where cs.can.id = ?1
          """)
    List<SkillWithLevelDTO> findSkillOfUser(Long candidateId);
+
+   List<Candidate> findCandidatesByIdIn(List<Long> candidateIds);
 }

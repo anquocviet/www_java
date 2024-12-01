@@ -1,6 +1,7 @@
 package fit.se.frontend.controllers;
 
 import fit.se.backend.dtos.CandidateDto;
+import fit.se.backend.dtos.CompanyDto;
 import fit.se.backend.dtos.CreateJobDto;
 import fit.se.backend.dtos.CreateJobSkillDto;
 import fit.se.backend.dtos.JobDto;
@@ -8,6 +9,7 @@ import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.exceptions.impl.ForBidenException;
 import fit.se.backend.security.CandidateDetails;
 import fit.se.backend.security.CompanyDetails;
+import fit.se.backend.services.CandidateRecommendationService;
 import fit.se.backend.services.CandidateService;
 import fit.se.backend.services.CompanyService;
 import fit.se.backend.services.JobRecommendationService;
@@ -46,19 +48,21 @@ public class JobController {
    private final JobManager jobManager;
    private final SkillService skillService;
    private final JobRecommendationService jobRecommendationService;
+   private final CandidateRecommendationService candidateRecommendationService;
 
    public JobController(
          JobService jobService,
          CandidateService candidateService,
          CompanyService companyService,
          JobManager jobManager, SkillService skillService,
-         JobRecommendationService jobRecommendationService) {
+         JobRecommendationService jobRecommendationService, CandidateRecommendationService candidateRecommendationService) {
       this.jobService = jobService;
       this.candidateService = candidateService;
       this.companyService = companyService;
       this.jobManager = jobManager;
       this.skillService = skillService;
       this.jobRecommendationService = jobRecommendationService;
+      this.candidateRecommendationService = candidateRecommendationService;
    }
 
    @GetMapping(value = {"", "/"})
@@ -69,11 +73,11 @@ public class JobController {
       // Check if search is present
       Page<JobDto> jobPage;
       if (search.isPresent() && !search.get().isEmpty()) {
-         jobPage = jobService.search(search.get(), currentPage - 1, pageSize, "id", "asc");
+         jobPage = jobService.search(search.get(), currentPage - 1, pageSize, "id", "desc");
          mav.addObject("search", search.get());
       } else {
          jobPage = jobService.findAllWithPagination(
-               currentPage - 1, pageSize, "id", "asc");
+               currentPage - 1, pageSize, "id", "desc");
       }
 
       mav.addObject("jobPage", jobPage);
@@ -108,7 +112,7 @@ public class JobController {
       ModelAndView mav = new ModelAndView("jobs/jobs-for-candidate");
       List<JobDto> listJob = jobRecommendationService.recommendJobs(candidate.id());
       mav.addObject("candidate", candidateService.findById(candidate.id()));
-      mav.addObject("candidateSkills", candidateService.findSkillsOfCandidate(candidate.id()));
+      mav.addObject("candidateSkills", candidate.skills());
       mav.addObject("listJob", listJob);
       return mav;
    }
@@ -118,7 +122,7 @@ public class JobController {
       ModelAndView mav = new ModelAndView("jobs/candidates-for-job");
       JobDto job = jobService.findById(jobId);
       mav.addObject("job", job);
-      mav.addObject("listCandidate", candidateService.findCandidatesForJob(jobId));
+      mav.addObject("listCandidate", candidateRecommendationService.recommendCandidates(jobId));
       return mav;
    }
 
@@ -135,13 +139,17 @@ public class JobController {
    }
 
    @GetMapping("/add")
-   public ModelAndView add(Long company) {
+   public ModelAndView add(HttpSession session) {
       ModelAndView mav = new ModelAndView("jobs/add");
-      mav.addObject("company", companyService.findById(company));
+      Object companyObj = session.getAttribute("company");
+      if (companyObj == null) {
+         throw new ForBidenException();
+      }
+      CompanyDto company = (CompanyDto) companyObj;
       mav.addObject("skills", skillService.findAll());
       mav.addObject("skillLevels", SkillLevel.values());
       mav.addObject("job",
-            new CreateJobDto("", "", company,
+            new CreateJobDto("", "", company.id(),
                   List.of(new CreateJobSkillDto(1L, SkillLevel.MASTER, ""))
             )
       );

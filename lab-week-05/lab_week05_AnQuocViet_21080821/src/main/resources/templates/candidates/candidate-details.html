@@ -23,10 +23,21 @@
                 <span th:text="${candidate.address.city}">Springfield</span>,
                 <span th:text="${candidate.address.country.name}">USA</span>
             </p>
+            <div>
+                <strong>Kỹ năng:</strong>
+                <ul>
+                    <li th:each="cSkill : ${skills}" class="mb-3">
+                        <span th:text="${cSkill.skill.skillName}">Java</span>
+                        <br>
+                        Level: <span th:text="${cSkill.skillLevel.name}">Intermediate</span>
+                        <br>
+                        Type: <span th:text="${cSkill.skill.type.name}">Programming</span>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="card-footer d-flex justify-content-between">
-            <a class="btn btn-secondary" th:href="@{/candidates}">Quay lại</a>
-            <a class="btn btn-primary" th:href="@{candidates/edit/{id}(id=${candidate.id})}">Cập nhật thông tin</a>
+        <div th:if="${session.candidate != null && session.candidate.id == candidate.id}" class="card-footer d-flex justify-content-between">
+            <a class="btn btn-primary" th:href="@{/candidates/edit}">Cập nhật thông tin</a>
         </div>
     </div>
 </div>

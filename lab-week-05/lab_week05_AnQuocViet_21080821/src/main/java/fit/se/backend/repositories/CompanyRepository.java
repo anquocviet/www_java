@@ -1,7 +1,7 @@
 package fit.se.backend.repositories;
 
-import fit.se.backend.models.Candidate;
 import fit.se.backend.models.Company;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +27,8 @@ public interface CompanyRepository extends CrudRepository<Company, Long>, Paging
    boolean existsCompaniesByPhone(String phone);
 
    boolean existsCompaniesByWebUrl(String url);
+
+   boolean existsCompaniesById(Long id);
+
+   Optional<Company> findCompanyByPhone(@NotNull String phone);
 }

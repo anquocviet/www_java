@@ -10,7 +10,7 @@
 <div class="container">
     <h1>Add Job</h1>
     <form method="post" action="/jobs/add">
-        <div th:object="${company}">
+        <div th:object="${session.company}">
             <input type="hidden" name="company" th:value="*{id}">
             <p>
                 <b>Company name: </b>
@@ -54,12 +54,15 @@
             </fieldset>
         </div>
         <div>
-            <button type="button" class="btn btn-primary btn-sm" onclick="addSkill()">Add Skill</button>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeSkill()">Remove Skill</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="addSkill()">Thêm kĩ năng</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeSkill()">Xóa bớt kĩ năng</button>
         </div>
         <br>
         <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Hủy</button>
+        </div>
     </form>
 </div>
 <!--Hidden templates-->

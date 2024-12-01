@@ -32,8 +32,8 @@ public class SecurityConfig {
                   .requestMatchers("/", "/jobs", "/jobs/").permitAll()
                   .requestMatchers("/auth/**").permitAll()
                   // authorize requests based on the role
-                  .requestMatchers("/candidates/edit/**", "/companies/").hasRole("CANDIDATE")
-                  .requestMatchers("/companies/edit/**", "/candidates/").hasRole("COMPANY")
+                  .requestMatchers("/candidates/edit/**").hasRole("CANDIDATE")
+                  .requestMatchers("/companies/edit").hasRole("COMPANY")
                   .anyRequest().authenticated()
             )
             .userDetailsService(userService)
