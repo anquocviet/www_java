@@ -34,7 +34,7 @@
     </p>
     <ul>
         <li th:each="cSkill : ${candidateSkills}" class="mb-3">
-            <span th:text="${cSkill.skill.skillName()}"></span>
+            Skill: <span th:text="${cSkill.skill.skillName()}"></span>
             <br>
             Level: <span th:text="${cSkill.skillLevel().name().toLowerCase()}"></span>
             <br>
@@ -54,7 +54,6 @@
             <th>Skills</th>
             <th>More Info</th>
             <th>About company</th>
-            <th>Apply</th>
         </tr>
         </thead>
         <tbody>
@@ -75,7 +74,6 @@
             <td th:text="${job.jobDesc()}"></td>
             <td><a th:href="@{/companies/{id}(id=${job.companyId()})}" class="btn btn-info btn-sm">View more</a>
             </td>
-            <td><a th:href="@{/apply-job/{id}(id=${job.id()})}" class="btn btn-success btn-sm">Apply</a></td>
         </tr>
         </tbody>
     </table>

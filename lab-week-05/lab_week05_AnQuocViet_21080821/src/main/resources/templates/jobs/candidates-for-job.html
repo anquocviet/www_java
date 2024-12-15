@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-   <div th:replace="~{fragments/header :: nav}"></div>
+    <div th:replace="~{fragments/header :: nav}"></div>
 
     <div th:object="${job}">
         <h1>Job Information</h1>
@@ -20,6 +20,18 @@
             <b>Description: </b>
             <span th:text="*{jobDesc()}"></span>
         </p>
+        <p>
+            <b>Skills: </b>
+        </p>
+        <ul>
+            <li th:each="cSkill : ${jobSkills}" class="mb-3">
+                Skill: <span th:text="${cSkill.skill.skillName()}"></span>
+                <br>
+                Level: <span th:text="${cSkill.skillLevel().name().toLowerCase()}"></span>
+                <br>
+                Type: <span th:text="${cSkill.skill().type().name().toLowerCase()}"></span>
+            </li>
+        </ul>
     </div>
 
     <div>
@@ -27,18 +39,17 @@
         <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date of Birth</th>
-                <th>Address</th>
-                <th>Phone</th>
+                <th>Tên</th>
+                <th>Ngày sinh</th>
+                <th>Địa chỉ</th>
+                <th>SĐT</th>
                 <th>Email</th>
+                <th>Kỹ năng</th>
                 <th>Send email</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="candidate : ${listCandidate}">
-                <td th:text="${candidate.id}"></td>
                 <td th:text="${candidate.fullName}"></td>
                 <td th:text="${#temporals.format(candidate.dob, 'dd/MM/yyyy')}"></td>
                 <td th:object="${candidate.address}">
@@ -48,6 +59,17 @@
                 </td>
                 <td th:text="${candidate.phone}"></td>
                 <td th:text="${candidate.email}"></td>
+                <td>
+                    <ul>
+                        <li th:each="canSkill : ${candidate.skills}" class="mb-3">
+                            <span th:text="${canSkill.skill.skillName}"></span>
+                            <br>
+                            Level: <span th:text="${canSkill.skillLevel.name}"></span>
+                            <br>
+                            Type: <span th:text="${canSkill.skill.type}"></span>
+                        </li>
+                    </ul>
+                </td>
                 <td>
                     <a th:href="@{'/jobs/' + ${job.id} + '/' + ${candidate.id} + '/send-email'}"
                        class="btn btn-primary">Send email</a>

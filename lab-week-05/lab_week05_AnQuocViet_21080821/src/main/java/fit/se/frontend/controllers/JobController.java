@@ -123,6 +123,7 @@ public class JobController {
       JobDto job = jobService.findById(jobId);
       mav.addObject("job", job);
       mav.addObject("listCandidate", candidateRecommendationService.recommendCandidates(jobId));
+      mav.addObject("jobSkills", job.jobSkills());
       return mav;
    }
 

@@ -6,7 +6,6 @@ import fit.se.backend.repositories.CandidateRepository;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,19 +24,18 @@ public class JobRecommendationService {
    private static final int FEATURE_SIZE = 100; // Kích thước vector đầu vào
    private static final double threshold = 0.6; // Ngưỡng dự đoán
 
-   @Autowired
-   private CandidateRepository candidateRepository;
-   @Autowired
-   private JobService jobService;
+   private final CandidateRepository candidateRepository;
+   private final JobService jobService;
 
-   public JobRecommendationService() {
+   public JobRecommendationService(CandidateRepository candidateRepository, JobService jobService) {
       try {
          this.model = MultiLayerNetwork.load(new File("job_recommendation_model.zip"), true);
       } catch (Exception e) {
-         // Log lỗi thay vì dừng ứng dụng
          Logger.getLogger(JobRecommendationService.class.getName()).severe("Error loading model: " + e.getMessage());
-         this.model = null; // Đảm bảo ứng dụng không bị lỗi toàn cục
+         this.model = null;
       }
+      this.candidateRepository = candidateRepository;
+      this.jobService = jobService;
    }
 
    public List<JobDto> recommendJobs(Long candidateId) {

@@ -4,6 +4,7 @@ import com.neovisionaries.i18n.CountryCode;
 import fit.se.backend.dtos.CandidateDto;
 import fit.se.backend.enums.SkillLevel;
 import fit.se.backend.services.CandidateService;
+import fit.se.backend.services.SkillRecommendationService;
 import fit.se.backend.services.SkillService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -29,10 +30,12 @@ import java.util.stream.IntStream;
 public class CandidateController {
    private final CandidateService candidateService;
    private final SkillService skillService;
+   private final SkillRecommendationService skillRecommendationService;
 
-   public CandidateController(CandidateService candidateService, SkillService skillService) {
+   public CandidateController(CandidateService candidateService, SkillService skillService, SkillRecommendationService skillRecommendationService) {
       this.candidateService = candidateService;
       this.skillService = skillService;
+      this.skillRecommendationService = skillRecommendationService;
    }
 
    @GetMapping(value = {"", "/"})
@@ -67,6 +70,13 @@ public class CandidateController {
       CandidateDto candidate = candidateService.findById(id);
       mav.addObject("candidate", candidate);
       mav.addObject("skills", candidate.skills());
+      return mav;
+   }
+
+   @GetMapping("/skill-recommend")
+   public ModelAndView skillRecommendation() {
+      ModelAndView mav = new ModelAndView("candidates/skill-recommend");
+      mav.addObject("skills", skillRecommendationService.recommendSkill());
       return mav;
    }
 

@@ -36,7 +36,8 @@
                 </ul>
             </div>
         </div>
-        <div th:if="${session.candidate != null && session.candidate.id == candidate.id}" class="card-footer d-flex justify-content-between">
+        <div th:if="${session.candidate != null && session.candidate.id == candidate.id}"
+             class="card-footer d-flex justify-content-between">
             <a class="btn btn-primary" th:href="@{/candidates/edit}">Cập nhật thông tin</a>
         </div>
     </div>

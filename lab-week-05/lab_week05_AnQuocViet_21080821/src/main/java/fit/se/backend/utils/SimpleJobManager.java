@@ -4,7 +4,6 @@ import fit.se.backend.dtos.CandidateDto;
 import fit.se.backend.dtos.JobDto;
 import jakarta.mail.Message;
 import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;

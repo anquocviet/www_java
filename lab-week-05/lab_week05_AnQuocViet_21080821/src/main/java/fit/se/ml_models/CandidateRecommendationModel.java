@@ -9,7 +9,6 @@ import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
@@ -20,8 +19,6 @@ import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,49 +36,48 @@ public class CandidateRecommendationModel {
       Map<String, INDArray> jobSkills = data.get("jobs");
 
       // Process data into training pairs
-      List<DataSet> dataSets = new ArrayList<>();
-      for (String jobId : jobSkills.keySet()) {
-         INDArray jobFeature = padFeatures(jobSkills.get(jobId), 100);
+      INDArray userSkillMatrix = normalizeMatrix(Nd4j.vstack(candidateSkills.values().toArray(new INDArray[0])));
+      INDArray jobSkillMatrix = normalizeMatrix(Nd4j.vstack(jobSkills.values().toArray(new INDArray[0])));
 
-         for (String candidateId : candidateSkills.keySet()) {
-            INDArray candidateFeature = padFeatures(candidateSkills.get(candidateId), 100);
+      // Determine the target number of rows (max rows of the two matrices)
+      int maxRows = Math.max(userSkillMatrix.rows(), jobSkillMatrix.rows());
+      // Pad matrices to have the same number of rows
+      INDArray paddedUserSkillMatrix = padMatrix(userSkillMatrix, maxRows);
+      INDArray paddedJobSkillMatrix = padMatrix(jobSkillMatrix, maxRows);
 
-            // Label: 1 nếu phù hợp, 0 nếu không phù hợp
-            double label = calculateLabel(jobFeature, candidateFeature);
-
-            // Combine job and candidate features
-            INDArray input = Nd4j.hstack(jobFeature, candidateFeature); // [1 x 200]
-            INDArray output = Nd4j.create(new double[]{label}, new int[]{1, 1});
-
-            dataSets.add(new DataSet(input, output));
-         }
-      }
-
-      // Shuffle data and split into train/test
-      Collections.shuffle(dataSets);
-      int trainSize = (int) (dataSets.size() * 0.8);
-      DataSetIterator trainIter = new ListDataSetIterator<>(dataSets.subList(0, trainSize));
-      DataSetIterator testIter = new ListDataSetIterator<>(dataSets.subList(trainSize, dataSets.size()));
+      // Split data into train and test sets
+      DataSet fullDataSet = new DataSet(paddedUserSkillMatrix, paddedJobSkillMatrix);
+      List<DataSet> splitData = fullDataSet.asList();
+      int trainSize = (int) (splitData.size() * 0.8);
+      DataSetIterator trainIter = new ListDataSetIterator<>(splitData.subList(0, trainSize));
+      DataSetIterator testIter = new ListDataSetIterator<>(splitData.subList(trainSize, splitData.size()));
 
       // Define neural network
       MultiLayerConfiguration config = new NeuralNetConfiguration.Builder()
             .seed(123)
-            .updater(new Adam(0.001)) // Optimizer
+            .updater(new Adam(0.0005)) // Lower learning rate
             .weightInit(WeightInit.XAVIER)
+            .l2(1e-4)
             .list()
             .layer(0, new DenseLayer.Builder()
-                  .nIn(200) // 100 (job skills) + 100 (candidate skills)
-                  .nOut(128) // Hidden layer size
+                  .nIn(jobSkillMatrix.columns())
+                  .nOut(256) // Increase neurons for better learning
                   .activation(Activation.RELU)
+                  .dropOut(0.3) // Reduce dropout
                   .build())
             .layer(1, new DenseLayer.Builder()
+                  .nIn(256)
+                  .nOut(128)
+                  .activation(Activation.RELU)
+                  .build())
+            .layer(2, new DenseLayer.Builder()
                   .nIn(128)
                   .nOut(64)
                   .activation(Activation.RELU)
                   .build())
-            .layer(2, new OutputLayer.Builder(LossFunctions.LossFunction.XENT)
+            .layer(3, new OutputLayer.Builder(LossFunctions.LossFunction.COSINE_PROXIMITY)
                   .nIn(64)
-                  .nOut(1) // Binary classification (0 hoặc 1)
+                  .nOut(userSkillMatrix.columns())
                   .activation(Activation.SIGMOID)
                   .build())
             .build();
@@ -92,38 +88,44 @@ public class CandidateRecommendationModel {
       model.setListeners(new ScoreIterationListener(10));
 
       // Train model
-      model.fit(trainIter);
+      for (int epoch = 0; epoch < 50; epoch++) {
+         model.fit(trainIter);
+         log.info("Epoch {} completed", epoch);
+      }
 
       // Evaluate model
-      Evaluation eval = model.evaluate(testIter);
-      log.info("Model Evaluation: \n{}", eval.stats());
+      double testScore = model.score(testIter.next());
+      log.info("Test Score: {}", testScore);
 
       // Save model
       model.save(new File("candidate_recommendation_model.zip"), true);
       log.info("Model saved to candidate_recommendation_model.zip");
    }
 
-   /**
-    * Pad features to ensure each vector has the same number of columns.
-    */
-   private static INDArray padFeatures(INDArray features, int targetColumns) {
-      int currentColumns = features.columns();
-      if (currentColumns >= targetColumns) return features;
+   private static INDArray padMatrix(INDArray matrix, int targetRows) {
+      int currentRows = matrix.rows();
+      int columns = matrix.columns();
 
-      // Padding thêm cột 0 vào cuối
-      INDArray padding = Nd4j.zeros(1, targetColumns - currentColumns);
-      return Nd4j.hstack(features, padding);
+      if (currentRows == targetRows) {
+         return matrix; // No padding needed
+      }
+
+      // Create padding rows with zeros
+      INDArray padding = Nd4j.zeros(targetRows - currentRows, columns);
+
+      // Append padding rows to the original matrix
+      return Nd4j.vstack(matrix, padding);
    }
 
-   /**
-    * Calculate label using cosine similarity.
-    *
-    * @param jobFeature       Feature vector for the job.
-    * @param candidateFeature Feature vector for the candidate.
-    * @return 1 if similarity > 0.8, otherwise 0.
-    */
    private static double calculateLabel(INDArray jobFeature, INDArray candidateFeature) {
       double similarity = Transforms.cosineSim(jobFeature, candidateFeature);
       return similarity > 0.8 ? 1 : 0;
+   }
+
+   private static INDArray normalizeMatrix(INDArray matrix) {
+      // Normalize data between 0 and 1
+      INDArray max = matrix.max(0);
+      INDArray min = matrix.min(0);
+      return matrix.subRowVector(min).divRowVector(max.sub(min));
    }
 }

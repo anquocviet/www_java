@@ -8,19 +8,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <nav class="navbar">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/jobs">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/candidates">Candidate</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/companies">Company</a>
-            </li>
-        </ul>
-    </nav>
+    <div th:replace="~{fragments/header :: nav}"></div>
 
     <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">Email Sent Successfully!</h4>

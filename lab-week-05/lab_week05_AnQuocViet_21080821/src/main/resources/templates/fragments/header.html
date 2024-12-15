@@ -26,6 +26,9 @@
                     <a class="nav-link" href="/jobs/recommend">Công việc dành cho bạn</a>
                 </li>
                 <li th:if="${session.candidate}" class="nav-item">
+                    <a class="nav-link" href="/candidates/skill-recommend">Kỹ năng nên học</a>
+                </li>
+                <li th:if="${session.candidate}" class="nav-item">
                     <a class="nav-link" href="/companies">Công ty</a>
                 </li>
                 <li th:if="${session.company}" class="nav-item">
